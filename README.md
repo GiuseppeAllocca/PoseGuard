@@ -15,11 +15,16 @@ PoseGuard is an iOS application designed to help users maintain healthy posture 
 - **Hardware Integration:** CoreMotion (AirPods Motion API)
 - **Architecture:** MVVM
 
-![IMG-20260203-WA0026](https://github.com/user-attachments/assets/5e38cfec-ef5e-4e78-a72c-7ae96d279e41)
-![IMG-20260203-WA0025](https://github.com/user-attachments/assets/1f9df215-d999-40a8-aa23-ce8358fbb5f9)
-![IMG-20260203-WA0029](https://github.com/user-attachments/assets/9a946d51-b511-4172-9f18-5f856edfe7fb)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b6658b22-2bb8-46d5-a20d-b7acf7da8f73" width="30%" />
+  &nbsp; 
+  <img src="https://github.com/user-attachments/assets/4eede344-9f14-47b1-9285-1dc6f7861b11" width="30%" />
+  &nbsp; 
+  <img src="https://github.com/user-attachments/assets/ec2c53ac-0f75-44e9-ad6e-14ada58e0cba" width="30%" />
+</p>
 
 ## 👨‍💻 My Role
+
 Co-created within a team of 4 developers. My key contributions included:
 - Engineered the **gyroscope algorithm** to interpret raw motion data (calculating neck angles).
 - Developed the background monitoring service for real-time alerts.
