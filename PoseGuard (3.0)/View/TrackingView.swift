@@ -1,18 +1,12 @@
 import Foundation
 import SwiftUI
-import CoreMotion
-import UserNotifications
-import AVFoundation
 
 struct TrackingView: View {
     @State private var showTips = false
-    @State private var isTracking = false
     @State private var pulseAnimation = false
     @State private var waveAnimation = false
     @State private var rotationAnimation = false
     @State private var showReport = false
-    @State private var showAirPodsAlert = false
-    @State private var motionManager = CMHeadphoneMotionManager()
     @State private var panOffset: CGFloat = 0
     @State private var previousPanOffset: CGFloat = 0
     
@@ -22,13 +16,37 @@ struct TrackingView: View {
     
     // Add PostureMonitorModel instance
     @StateObject private var postureMonitor = PostureMonitorModel()
+    @Environment(\.openURL) private var openURL
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @AccessibilityFocusState private var isTipsButtonFocused: Bool
+
+    private var isTracking: Bool { postureMonitor.isMonitoring }
+
+    private var trackingStatus: String {
+        if postureMonitor.isStarting {
+            return NSLocalizedString("Waiting for headphone motion…", comment: "")
+        }
+        return isTracking ? postureMonitor.postureMessage : NSLocalizedString("Tap To Track", comment: "")
+    }
+
+    private var trackingActionLabel: LocalizedStringKey {
+        if postureMonitor.isStarting { return "Cancel starting" }
+        return isTracking ? "Stop tracking" : "Start tracking"
+    }
+
+    private var isShowingFailure: Binding<Bool> {
+        Binding(
+            get: { postureMonitor.failure != nil },
+            set: { if !$0 { postureMonitor.dismissFailure() } }
+        )
+    }
     
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             
             // Animated background waves when tracking (similar to Shazam's listening animation)
-            if isTracking {
+            if isTracking && !reduceMotion {
                 ZStack {
                     // Multiple expanding circles
                     ForEach(0..<3, id: \.self) { index in
@@ -60,6 +78,7 @@ struct TrackingView: View {
                         }
                     }*/
                 }
+                .accessibilityHidden(true)
             }
             
             VStack {
@@ -80,7 +99,8 @@ struct TrackingView: View {
                     Button(action: {
                         showTips = true
                     }) {
-                        Image(systemName: "lightbulb")
+                        Label("Show posture tips", systemImage: "lightbulb")
+                            .labelStyle(.iconOnly)
                             .font(.system(size: 22))
                             .foregroundColor(.white)
                             .padding()
@@ -90,14 +110,19 @@ struct TrackingView: View {
                                     .frame(width: 50, height: 50)
                             )
                     }
+                    .accessibilityFocused($isTipsButtonFocused)
                 }
                 .padding(.horizontal)
                 
                 Spacer()
                 
                 // Status text with animated reveal
-                Text(isTracking ? postureMonitor.postureMessage : NSLocalizedString("Tap To Track", comment: ""))
+                Text(trackingStatus)
                     .font(.system(size: 24, weight: .medium))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 24)
+                    .layoutPriority(1)
                     .foregroundColor(isTracking ? (postureMonitor.isPostureCorrect ? .green : .red) : .gray)
                     .padding(.bottom, 50)
                     .transition(.opacity)
@@ -107,40 +132,17 @@ struct TrackingView: View {
                 
                 // Main circle button with advanced animations
                 Button(action: {
-                    if !isTracking {  // Controlla se stiamo per attivare il tracciamento
-                        areAirPodsConnected { isAirPods in
-                            if isAirPods && motionManager.isDeviceMotionAvailable {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    isTracking = true  // Imposta direttamente su true invece di toggle
-                                }
-                                
-                                    // Avvia tutte le animazioni quando inizia il tracciamento
-                                withAnimation {
-                                    pulseAnimation = true
-                                    waveAnimation = true
-                                    rotationAnimation = true
-                                }
-                                postureMonitor.startMonitoring()
-                            } else {
-                                showAirPodsAlert = true
-                            }
+                    withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.3)) {
+                        if isTracking || postureMonitor.isStarting {
+                            postureMonitor.stopMonitoring()
+                        } else {
+                            postureMonitor.startMonitoring()
                         }
-                    } else {  // Se stiamo disattivando il tracciamento, non serve verificare gli AirPods
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            isTracking = false  // Imposta direttamente su false
-                        }
-                        
-                        withAnimation {
-                            pulseAnimation = false
-                            waveAnimation = false
-                            rotationAnimation = false
-                        }
-                        postureMonitor.stopMonitoring()
                     }
                 }) {
                     ZStack {
                         // Animated outer glow
-                        if isTracking {
+                        if isTracking && !reduceMotion {
                             Circle()
                                 .stroke(postureMonitor.isPostureCorrect ? Color.green.opacity(0.5) : Color.red.opacity(0.5), lineWidth: 3)
                                 .frame(width: 170, height: 170)
@@ -185,18 +187,29 @@ struct TrackingView: View {
                             .frame(width: 60, height: 60)
                             .rotationEffect(Angle(degrees: rotationAnimation ? 360 : 0))
                             .animation(
-                                isTracking ?
+                                reduceMotion ? nil : (isTracking ?
                                 Animation.linear(duration: 10).repeatForever(autoreverses: false) :
-                                .default,
+                                .default),
                                 value: rotationAnimation
                             )
                     }
                 }
                 .padding(.bottom, 100)
-                .scaleEffect(isTracking ? 1.05 : 1.0)
-                .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isTracking)
-                .alert("AirPods not connected", isPresented: $showAirPodsAlert) {
+                .scaleEffect(isTracking && !reduceMotion ? 1.05 : 1.0)
+                .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.6), value: isTracking)
+                .accessibilityLabel(trackingActionLabel)
+                .accessibilityIdentifier("Airpods Pro")
+                .alert(Text(postureMonitor.failure?.title ?? ""), isPresented: isShowingFailure, presenting: postureMonitor.failure) { failure in
+                    if failure.canOpenSettings {
+                        Button("Open Settings") {
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                openURL(url)
+                            }
+                        }
+                    }
                     Button("OK", role: .cancel) {}
+                } message: { failure in
+                    Text(failure.message)
                 }
                 Spacer()
                 
@@ -267,88 +280,37 @@ struct TrackingView: View {
                 .animation(.spring(), value: showReport)
                 */
             }
+            .accessibilityElement(children: .contain)
+            .accessibilityHidden(showTips)
+            .allowsHitTesting(!showTips)
             
             // Report view overlay
             MyReportView(isShowing: $showReport)
+                .accessibilityHidden(!showReport || showTips)
+                .allowsHitTesting(showReport && !showTips)
             MyTipsView(isShowing: $showTips)
         }
-        .onAppear {
-            // Request notification permissions
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                if let error = error {
-                    print("Error requesting notification permission: \(error.localizedDescription)")
-                }
-            }
-            
-            // Ensure animations start properly when view appears if tracking is already on
-            if isTracking {
-                pulseAnimation = true
-                waveAnimation = true
-                rotationAnimation = true
-                postureMonitor.startMonitoring()
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: isTracking)
+        .transaction { transaction in
+            if reduceMotion {
+                transaction.animation = nil
+                transaction.disablesAnimations = true
             }
         }
+        .onChange(of: isTracking) { _, tracking in updateAnimations(tracking) }
+        .onChange(of: reduceMotion) { updateAnimations(isTracking) }
+        .onChange(of: showTips) { _, isShowing in
+            if !isShowing { isTipsButtonFocused = true }
+        }
+        .onAppear { updateAnimations(isTracking) }
+        .onDisappear { postureMonitor.stopMonitoring() }
     }
     
-    func areAirPodsConnected(completion: @escaping (Bool) -> Void) {
-        let motionManager = CMHeadphoneMotionManager()
-        
-            // Verifica se il dispositivo supporta HeadphoneMotion
-        guard motionManager.isDeviceMotionAvailable else {
-            print("Il giroscopio non è disponibile.")
-            completion(false)
-            return
-        }
-        
-        let session = AVAudioSession.sharedInstance()
-        let outputs = session.currentRoute.outputs
-        
-            // Verifica se ci sono cuffie Bluetooth collegate
-        let areHeadphonesConnected = outputs.contains { output in
-            output.portType == .bluetoothA2DP || output.portType == .bluetoothHFP
-        }
-        
-        if !areHeadphonesConnected {
-            print("Nessuna cuffia Bluetooth collegata.")
-            completion(false)
-            return
-        }
-        
-            // Impostiamo un timeout per verificare se riceviamo dati dal giroscopio
-        var receivedMotionData = false
-        var timeoutTimer: Timer?
-        
-            // Inizia a monitorare i dati del giroscopio
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.main) { (data, error) in
-            if error != nil {
-                    // In caso di errore, non sono AirPods con giroscopio
-                timeoutTimer?.invalidate()
-                motionManager.stopDeviceMotionUpdates()
-                if !receivedMotionData {
-                    print("Errore dal giroscopio - non sono AirPods.")
-                    receivedMotionData = true
-                    completion(false)
-                }
-                return
-            }
-            
-            if data != nil && !receivedMotionData {
-                    // Abbiamo ricevuto dati dal giroscopio, sono AirPods
-                timeoutTimer?.invalidate()
-                print("Giroscopio attivo e dati disponibili - sono AirPods.")
-                receivedMotionData = true
-                completion(true)
-                    // Non fermiamo gli aggiornamenti in caso serva continuare a usare i dati
-            }
-        }
-        
-            // Impostiamo un timeout (ad esempio 1 secondo)
-        timeoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-            if !receivedMotionData {
-                print("Timeout: nessun dato dal giroscopio - non sono AirPods.")
-                motionManager.stopDeviceMotionUpdates()
-                completion(false)
-            }
+    private func updateAnimations(_ tracking: Bool) {
+        withAnimation(reduceMotion ? nil : .default) {
+            pulseAnimation = tracking && !reduceMotion
+            waveAnimation = tracking && !reduceMotion
+            rotationAnimation = tracking && !reduceMotion
         }
     }
     

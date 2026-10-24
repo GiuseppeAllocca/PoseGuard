@@ -9,10 +9,6 @@ import XCTest
 
 final class PoseGuard__3_0_UITestsLaunchTests: XCTestCase {
 
-    override class var runsForEachTargetApplicationUIConfiguration: Bool {
-        true
-    }
-
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
@@ -20,13 +16,15 @@ final class PoseGuard__3_0_UITestsLaunchTests: XCTestCase {
     @MainActor
     func testLaunch() throws {
         let app = XCUIApplication()
-        app.launch()
+        defer { app.terminate() }
+        app.launchPoseGuardInEnglish(testCase: self)
+        app.completeOnboardingIfNeeded()
 
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
+        XCTAssertTrue(app.buttons["PoseGuard"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Airpods Pro"].waitForExistence(timeout: 5))
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = "Launch Screen"
+        attachment.name = "Schermata principale dopo l'avvio"
         attachment.lifetime = .keepAlways
         add(attachment)
     }

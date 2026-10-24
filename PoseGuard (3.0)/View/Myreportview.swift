@@ -111,7 +111,7 @@ struct MyReportView: View {
             .edgesIgnoringSafeArea(.all)
         }
         .opacity(isShowing ? 1 : 0)
-        .onChange(of: isShowing) { newValue in
+        .onChange(of: isShowing) { _, newValue in
             if newValue {
                 showView()
             }

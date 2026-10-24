@@ -30,7 +30,7 @@ struct OnboardingView: View {
                     InstructionRow(
                         icon: "airpodspro",
                         title: "Connect your AirPods",
-                        description: "The app'll use your airpdos' gyroscope to track your posture."
+                        description: "The app'll use your AirPods' gyroscope to track your posture."
                     )
                     
                     InstructionRow(
@@ -40,9 +40,9 @@ struct OnboardingView: View {
                     )
                     
                     InstructionRow(
-                        icon: "chart.line.uptrend.xyaxis",
-                        title: "Check your report",
-                        description: "Remember to check your daily report to visualize your progress."
+                        icon: "lightbulb",
+                        title: "Read posture tips",
+                        description: "Open Tips for everyday posture advice."
                     )
                     
                     Spacer()
@@ -51,7 +51,7 @@ struct OnboardingView: View {
                         // Sostituito il ProfileButton con una visualizzazione non cliccabile
                         ProfileIcon()
                         
-                        Text("Remember this app is always working on background, to ensure the privacy of your data remember to check the user's data manual in the learn more section. We will not share your posture's data")
+                        Text("Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Continuous background monitoring is not guaranteed.")
                             .font(.system(size: 12))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.gray)
@@ -88,8 +88,8 @@ struct OnboardingView: View {
 
 struct InstructionRow: View {
     let icon: String
-    let title: String
-    let description: String
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
     
     var body: some View {
         HStack(alignment: .top, spacing: 15) {

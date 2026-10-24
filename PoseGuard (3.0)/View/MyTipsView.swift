@@ -59,6 +59,9 @@ struct MyTipsView: View {
     @Binding var isShowing: Bool
     @StateObject private var viewModel = TipsViewModel()
     @State private var offset: CGFloat = -UIScreen.main.bounds.height
+    @State private var isDismissing = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @AccessibilityFocusState private var isCloseButtonFocused: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -70,6 +73,7 @@ struct MyTipsView: View {
                         .onTapGesture {
                             hideView()
                         }
+                        .accessibilityHidden(true)
                 }
                 
                 // Tips panel
@@ -88,9 +92,23 @@ struct MyTipsView: View {
                             .padding(.top, 20)
                         
                         Spacer()
+
+                        Button(action: hideView) {
+                            Label("Close tips", systemImage: "xmark")
+                                .labelStyle(.iconOnly)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .frame(width: 44, height: 44)
+                                .contentShape(Rectangle())
+                        }
+                            .padding(.trailing, 16)
+                            .padding(.top, 20)
+                            .accessibilityFocused($isCloseButtonFocused)
                     }
                     .padding(.top, 10)
                     .padding(.bottom, 15)
+                    .contentShape(Rectangle())
+                    .gesture(dismissGesture)
                     
                     // Tips list
                     ScrollView {
@@ -103,65 +121,90 @@ struct MyTipsView: View {
                         .padding(.bottom, 30)
                     }
                     
-                    // Home indicator - ridotta dimensione
                     Rectangle()
                         .frame(width: 80, height: 4)
                         .cornerRadius(2)
                         .foregroundColor(.white.opacity(0.5))
-                        .padding(.bottom, 5)
+                        .padding(.vertical, 20)
+                        .frame(maxWidth: .infinity)
+                        .contentShape(Rectangle())
+                        .accessibilityIdentifier("tipsDismissHandle")
+                        .accessibilityHidden(true)
+                        .gesture(dismissGesture)
+                        .padding(.bottom, geometry.safeAreaInsets.bottom + 5)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height - 100)
+                .frame(width: geometry.size.width, height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom)
                 .background(Color.black.opacity(0.99))
                 .cornerRadius(25, corners: [.topLeft, .topRight])
                 .offset(y: offset)
-                .gesture(
-                    // Gesture for dragging the panel
-                    DragGesture(minimumDistance: 5, coordinateSpace: .global)
-                        .onChanged { value in
-                            // Only allow dragging up (negative values)
-                            let newOffset = value.translation.height
-                            if newOffset < 0 {
-                                withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.3)) {
-                                    offset = newOffset
-                                }
-                            }
-                        }
-                        .onEnded { value in
-                            if value.translation.height < -50 || value.velocity.height < -100 {
-                                hideView()
-                            } else {
-                                // Otherwise snap back
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                    offset = 0
-                                }
-                            }
-                        }
-                )
+                .accessibilityElement(children: .contain)
+                .accessibilityAddTraits(isShowing ? .isModal : [])
+                .accessibilityHidden(!isShowing)
+                .accessibilityAction(.escape, hideView)
+
             }
             .edgesIgnoringSafeArea(.all)
-            .onChange(of: isShowing) { newValue in
+            .onChange(of: isShowing, initial: true) { _, newValue in
                 if newValue {
                     showView()
+                } else {
+                    isCloseButtonFocused = false
+                }
+            }
+            .onChange(of: reduceMotion) {
+                if reduceMotion {
+                    offset = isShowing ? (isDismissing ? -UIScreen.main.bounds.height : 0) : -UIScreen.main.bounds.height
                 }
             }
         }
         .opacity(isShowing ? 1 : 0)
+        .allowsHitTesting(isShowing && !isDismissing)
+        .transaction { transaction in
+            if reduceMotion {
+                transaction.animation = nil
+                transaction.disablesAnimations = true
+            }
+        }
     }
     
+    private var dismissGesture: some Gesture {
+        DragGesture(minimumDistance: 5, coordinateSpace: .global)
+            .onChanged { value in
+                guard !isDismissing else { return }
+                offset = min(0, value.translation.height)
+            }
+            .onEnded { value in
+                guard !isDismissing else { return }
+                if value.translation.height < -24 || value.velocity.height < -100 {
+                    hideView()
+                } else {
+                    withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7)) {
+                        offset = 0
+                    }
+                }
+            }
+    }
+
     // Animation for showing the view
     private func showView() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+        withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.8)) {
             offset = 0  // Impostato a 0 per visualizzare completamente il pannello dall'alto
+        } completion: {
+            if isShowing && !isDismissing { isCloseButtonFocused = true }
         }
     }
     
     // Animation for hiding the view
     private func hideView() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+        guard isShowing && !isDismissing else { return }
+        isDismissing = true
+        withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.8)) {
             offset = -UIScreen.main.bounds.height
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                isShowing = false
-            }
+        } completion: {
+            isCloseButtonFocused = false
+            isShowing = false
+            offset = -UIScreen.main.bounds.height
+            isDismissing = false
         }
     }
 }
