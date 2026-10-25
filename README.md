@@ -25,7 +25,7 @@ PoseGuard is an iOS application designed to help users maintain healthy posture 
 
 ## 👨‍💻 My Role
 
-Co-created within a team of 4 developers. My key contributions included:
+Built in a team of 6 developers during the Apple Foundation Program. My contributions included:
 - Engineered the **gyroscope algorithm** to interpret raw motion data (calculating neck angles).
 - Developed the background monitoring service for real-time alerts.
 
