@@ -8,10 +8,16 @@
 import SwiftUI
 import CoreMotion
 import UserNotifications
+#if DEBUG
+import OSLog
+#endif
 
 struct PostureMotionSample {
     let pitch: Double
     let roll: Double
+    #if DEBUG
+    var timestamp: TimeInterval? = nil
+    #endif
 }
 
 protocol PostureMotionSource: AnyObject {
@@ -35,10 +41,15 @@ final class HeadphoneMotionSource: PostureMotionSource {
         manager.startConnectionStatusUpdates()
         manager.startDeviceMotionUpdates(to: .main) { motion, error in
             let sample = motion.map {
-                PostureMotionSample(
+                let sample = PostureMotionSample(
                     pitch: $0.attitude.pitch * (180.0 / .pi),
                     roll: $0.attitude.roll * (180.0 / .pi)
                 )
+                #if DEBUG
+                return PostureMotionSample(pitch: sample.pitch, roll: sample.roll, timestamp: $0.timestamp)
+                #else
+                return sample
+                #endif
             }
             handler(sample, error)
         }
@@ -74,6 +85,85 @@ protocol PostureNotificationCenter: AnyObject, Sendable {
 
 extension UNUserNotificationCenter: PostureNotificationCenter {}
 
+private func postureTrace(_ message: @autoclosure () -> String) {
+    #if DEBUG
+    let entry = message()
+    PostureDiagnosticLog.logger.notice("uptime=\(ProcessInfo.processInfo.systemUptime) \(entry, privacy: .public)")
+    #endif
+}
+
+#if DEBUG
+private enum PostureDiagnosticLog {
+    static let logger = Logger(subsystem: "com.giuseppe-allocca.PoseGuardApp", category: "Monitoraggio")
+}
+
+struct PostureMotionDiagnostics {
+    private(set) var sampleCount = 0
+    private(set) var lastSensorTime: TimeInterval?
+    private(set) var lastReceivedAt: TimeInterval?
+    private(set) var maximumSensorGap: TimeInterval = 0
+    private(set) var maximumProcessingGap: TimeInterval = 0
+
+    mutating func record(sensorTime: TimeInterval?, receivedAt: TimeInterval) {
+        sampleCount += 1
+        if let previous = lastReceivedAt {
+            maximumProcessingGap = max(maximumProcessingGap, receivedAt - previous)
+        }
+        lastReceivedAt = receivedAt
+        if let sensorTime, sensorTime.isFinite {
+            if let previous = lastSensorTime {
+                maximumSensorGap = max(maximumSensorGap, sensorTime - previous)
+            }
+            lastSensorTime = sensorTime
+        }
+    }
+
+    var summary: String {
+        "campioni=\(sampleCount) ultimoSensore=\(lastSensorTime.map { String($0) } ?? "assente") ultimaElaborazione=\(lastReceivedAt.map { String($0) } ?? "assente") intervalloMassimoSensore=\(maximumSensorGap) intervalloMassimoElaborazione=\(maximumProcessingGap)"
+    }
+}
+#endif
+
+#if DEBUG && targetEnvironment(simulator)
+// La sequenza controllata è attivabile solo dagli UI test sul Simulator.
+private final class SimulatorPostureMotionSource: PostureMotionSource {
+    let isDeviceMotionAvailable = true
+    let authorizationStatus: CMAuthorizationStatus = .authorized
+    private var pending: [DispatchWorkItem] = []
+
+    func startUpdates(_ handler: @escaping (PostureMotionSample?, Error?) -> Void, onDisconnect: @escaping () -> Void) {
+        stopUpdates()
+        for (delay, pitch) in [(6.0, 0.0), (12.0, 20.0), (12.1, 20.0)] {
+            let item = DispatchWorkItem {
+                handler(PostureMotionSample(pitch: pitch, roll: 0,
+                                            timestamp: ProcessInfo.processInfo.systemUptime), nil)
+            }
+            pending.append(item)
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: item)
+        }
+    }
+
+    func stopUpdates() {
+        pending.forEach { $0.cancel() }
+        pending.removeAll()
+    }
+}
+
+@MainActor
+private final class SimulatorPostureNotifications: PostureNotificationCenter {
+    func requestAuthorization(options: UNAuthorizationOptions, completionHandler: @escaping @Sendable (Bool, Error?) -> Void) {
+        completionHandler(false, nil)
+    }
+    func add(_ request: UNNotificationRequest, withCompletionHandler completionHandler: (@Sendable (Error?) -> Void)?) {
+        completionHandler?(nil)
+    }
+    func getPendingNotificationRequests(completionHandler: @escaping @Sendable ([UNNotificationRequest]) -> Void) {
+        completionHandler([])
+    }
+    nonisolated func removePendingNotificationRequests(withIdentifiers identifiers: [String]) {}
+}
+#endif
+
 @MainActor
 class PostureMonitorModel: ObservableObject {
     enum State: Equatable {
@@ -98,7 +188,7 @@ class PostureMonitorModel: ObservableObject {
             case .motionDenied: key = "Motion access denied"
             case .motionRestricted: key = "Motion access restricted"
             case .configuration: key = "Tracking unavailable"
-            case .disconnected: key = "AirPods not connected"
+            case .disconnected: key = "Headphone motion interrupted"
             case .trackingFailed: key = "Tracking error"
             }
             return NSLocalizedString(key, comment: "")
@@ -116,7 +206,7 @@ class PostureMonitorModel: ObservableObject {
             case .configuration:
                 key = "PoseGuard cannot access headphone motion because of an app configuration issue."
             case .disconnected:
-                key = "Your headphones disconnected. Reconnect them, then tap to start again."
+                key = "PoseGuard lost the headphone motion connection. Check that your headphones are connected and worn, then tap to start again."
             case .trackingFailed:
                 key = "Could not read headphone motion. Try starting again."
             }
@@ -138,6 +228,10 @@ class PostureMonitorModel: ObservableObject {
     private var monitoringSession: UUID?
     private var postureNotificationPrefix: String?
     private var hasRequestedNotifications = false
+    #if DEBUG
+    private(set) var motionDiagnostics = PostureMotionDiagnostics()
+    private var lastDiagnosticEmission: TimeInterval = 0
+    #endif
     
     @Published var isPostureCorrect: Bool = true
     @Published var postureMessage: String = NSLocalizedString("Correct Posture!", comment: "")
@@ -150,6 +244,26 @@ class PostureMonitorModel: ObservableObject {
     var failure: Failure? {
         if case .failed(let failure) = state { return failure }
         return nil
+    }
+
+    static func makeForTrackingView() -> PostureMonitorModel {
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.environment["POSEGUARD_UI_TRACKING_SEQUENCE"] == "1" {
+            return PostureMonitorModel(motionManager: SimulatorPostureMotionSource(),
+                                       notificationCenter: SimulatorPostureNotifications())
+        }
+        #endif
+        return PostureMonitorModel()
+    }
+
+    func recordScenePhase(_ phase: ScenePhase) {
+        trace("lifecycle=\(phase)")
+    }
+
+    private func trace(_ event: @autoclosure () -> String) {
+        #if DEBUG
+        postureTrace("\(event()) sessione=\(monitoringSession?.uuidString ?? "nessuna") stato=\(state) \(motionDiagnostics.summary)")
+        #endif
     }
     
     init(
@@ -188,6 +302,11 @@ class PostureMonitorModel: ObservableObject {
     
     func startMonitoring() {
         guard monitoringSession == nil else { return }
+        #if DEBUG
+        motionDiagnostics = PostureMotionDiagnostics()
+        lastDiagnosticEmission = 0
+        #endif
+        trace("avvio consenso=\(motionManager.authorizationStatus.rawValue) disponibile=\(motionManager.isDeviceMotionAvailable)")
         if let failure = authorizationFailure {
             fail(failure)
             return
@@ -200,12 +319,14 @@ class PostureMonitorModel: ObservableObject {
         let session = UUID()
         monitoringSession = session
         state = .starting
+        trace("attesa")
         motionManager.startUpdates({ [weak self] sample, error in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self, self.monitoringSession == session else { return }
                 if let failure = self.authorizationFailure {
                     self.fail(failure)
                 } else if let error = error {
+                    self.trace("erroreMotion dominio=\((error as NSError).domain) codice=\((error as NSError).code)")
                     self.fail(self.failure(for: error))
                 } else if let sample = sample {
                     guard sample.pitch.isFinite, sample.roll.isFinite else {
@@ -213,6 +334,14 @@ class PostureMonitorModel: ObservableObject {
                         return
                     }
                     self.state = .tracking
+                    #if DEBUG
+                    let receivedAt = ProcessInfo.processInfo.systemUptime
+                    self.motionDiagnostics.record(sensorTime: sample.timestamp, receivedAt: receivedAt)
+                    if self.motionDiagnostics.sampleCount == 1 || receivedAt - self.lastDiagnosticEmission >= 5 {
+                        self.trace("campioni")
+                        self.lastDiagnosticEmission = receivedAt
+                    }
+                    #endif
                     self.checkPosture(sample: sample)
                     self.setupNotifications()
                 }
@@ -220,12 +349,14 @@ class PostureMonitorModel: ObservableObject {
         }, onDisconnect: { [weak self] in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self, self.monitoringSession == session else { return }
+                self.trace("callbackDisconnessioneMotion")
                 self.fail(self.authorizationFailure ?? .disconnected)
             }
         })
     }
     
     func stopMonitoring() {
+        trace("stop")
         monitoringSession = nil
         state = .idle
         cancelPostureNotifications()
@@ -262,6 +393,7 @@ class PostureMonitorModel: ObservableObject {
     }
 
     private func fail(_ failure: Failure) {
+        trace("arresto motivo=\(failure)")
         monitoringSession = nil
         cancelPostureNotifications()
         motionManager.stopUpdates()
@@ -326,10 +458,12 @@ class PostureMonitorModel: ObservableObject {
 
     private func cancelPostureNotifications() {
         guard let prefix = postureNotificationPrefix else { return }
+        trace("richiestaCancellazione episodio=\(prefix)")
         postureNotificationPrefix = nil
         let center = notificationCenter
         center.getPendingNotificationRequests { requests in
             let identifiers = requests.filter { $0.identifier.hasPrefix(prefix) }.map(\.identifier)
+            postureTrace("cancellazione episodio=\(prefix) pendenti=\(identifiers.count)")
             guard !identifiers.isEmpty else { return }
             center.removePendingNotificationRequests(withIdentifiers: identifiers)
         }
@@ -348,8 +482,10 @@ class PostureMonitorModel: ObservableObject {
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 7.0, repeats: false)
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        trace("programmazioneAvviso id=\(identifier) ritardo=7s")
         
         notificationCenter.add(request) { error in
+            postureTrace("esitoProgrammazione id=\(identifier) errore=\(error.map { String(($0 as NSError).code) } ?? "nessuno")")
             if let error = error {
                 print("Error sending notification: \(error.localizedDescription)")
             }

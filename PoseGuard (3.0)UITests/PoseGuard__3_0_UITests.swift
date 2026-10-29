@@ -14,6 +14,46 @@ final class PoseGuard__3_0_UITests: XCTestCase {
     }
 
     @MainActor
+    func testTrackingStatusKeepsItsPosition() throws {
+        #if targetEnvironment(simulator)
+        for language in ["en", "it"] {
+            let app = XCUIApplication()
+            defer { app.terminate() }
+            app.launchEnvironment["POSEGUARD_UI_TRACKING_SEQUENCE"] = "1"
+            app.launchArguments = ["-AppleLanguages", "(\(language))", "-AppleLocale", language == "en" ? "en_US" : "it_IT"]
+            app.launch()
+            let continueButton = app.buttons[language == "en" ? "Continue" : "Continua"]
+            if continueButton.waitForExistence(timeout: 2) { continueButton.tap() }
+            let labels = language == "en"
+                ? ["Tap To Track", "Waiting for headphone motion…", "Correct Posture!", "Bad Posture!"]
+                : ["Tocca per tracciare", "In attesa dei dati di movimento delle cuffie…", "Postura Corretta!", "Cattiva"]
+            var frames: [CGRect] = []
+            for (index, label) in labels.enumerated() {
+                let status = app.staticTexts.matching(identifier: "trackingStatus").matching(NSPredicate(format: "label == %@", label)).firstMatch
+                XCTAssertTrue(status.waitForExistence(timeout: 10), "Stato mancante: \(label)")
+                frames.append(status.frame)
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.name = "Tracking \(language) \(index)"
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+                if index == 0 { app.buttons["Airpods Pro"].tap() }
+            }
+            let measurement = XCTAttachment(string: frames.enumerated().map { "\(labels[$0.offset]): \($0.element)" }.joined(separator: "\n"))
+            measurement.name = "Geometria del testo \(language)"
+            measurement.lifetime = .keepAlways
+            add(measurement)
+            for frame in frames.dropFirst() {
+                XCTAssertEqual(frame.midY, frames[0].midY, accuracy: 1, "Il cambio di stato sposta il centro del testo")
+                XCTAssertGreaterThan(frame.height, 0)
+                XCTAssertTrue(app.frame.contains(frame), "Il testo esce dallo schermo")
+            }
+        }
+        #else
+        throw XCTSkip("La sequenza controllata è disponibile soltanto sul Simulator.")
+        #endif
+    }
+
+    @MainActor
     func testOnboardingCanBeReopenedAndCompleted() {
         let app = XCUIApplication()
         defer { app.terminate() }

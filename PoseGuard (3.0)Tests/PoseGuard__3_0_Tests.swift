@@ -11,6 +11,60 @@ import CoreMotion
 import UserNotifications
 @testable import PoseGuard
 
+#if DEBUG
+extension PoseGuard__3_0_Tests {
+    @Test("La diagnostica distingue la cadenza del sensore dal ritardo di elaborazione")
+    func diagnosticGapsDistinguishSensorAndProcessing() {
+        var diagnostics = PostureMotionDiagnostics()
+        diagnostics.record(sensorTime: 10, receivedAt: 20)
+        diagnostics.record(sensorTime: 10.02, receivedAt: 20.02)
+        diagnostics.record(sensorTime: 10.04, receivedAt: 35)
+        #expect(diagnostics.sampleCount == 3)
+        #expect(abs(diagnostics.maximumSensorGap - 0.02) < 0.0001)
+        #expect(abs(diagnostics.maximumProcessingGap - 14.98) < 0.0001)
+        #expect(diagnostics.lastSensorTime == 10.04)
+        #expect(diagnostics.lastReceivedAt == 35)
+    }
+
+    @Test("Un timestamp assente o non finito non viene inventato dalla diagnostica")
+    func diagnosticMissingTimestampsRemainMissing() {
+        var diagnostics = PostureMotionDiagnostics()
+        diagnostics.record(sensorTime: nil, receivedAt: 1)
+        diagnostics.record(sensorTime: .nan, receivedAt: 2)
+        #expect(diagnostics.lastSensorTime == nil)
+        #expect(diagnostics.maximumSensorGap == 0)
+        #expect(diagnostics.maximumProcessingGap == 1)
+        diagnostics.record(sensorTime: 0, receivedAt: 3)
+        diagnostics.record(sensorTime: 0.04, receivedAt: 4)
+        #expect(diagnostics.sampleCount == 4)
+        #expect(diagnostics.maximumSensorGap == 0.04)
+    }
+
+    @Test("La diagnostica esclude callback obsolete e riparte dalla nuova sessione")
+    @MainActor
+    func diagnosticSamplesBelongToCurrentSession() async {
+        let fixture = PostureLifecycleFixture()
+        defer { fixture.model.stopMonitoring() }
+        fixture.model.startMonitoring()
+        fixture.motion.send(PostureMotionSample(pitch: 0, roll: 0, timestamp: 10))
+        await drainPostureCallbacks()
+        #expect(fixture.model.motionDiagnostics.sampleCount == 1)
+        fixture.model.stopMonitoring()
+        fixture.motion.send(PostureMotionSample(pitch: 0, roll: 0, timestamp: 11), stream: 0)
+        await drainPostureCallbacks()
+        #expect(fixture.model.motionDiagnostics.sampleCount == 1)
+        fixture.model.startMonitoring()
+        #expect(fixture.model.motionDiagnostics.sampleCount == 0)
+        fixture.motion.send(PostureMotionSample(pitch: 0, roll: 0, timestamp: 12), stream: 0)
+        fixture.motion.send(PostureMotionSample(pitch: 0, roll: 0, timestamp: 20))
+        await drainPostureCallbacks()
+        #expect(fixture.model.motionDiagnostics.sampleCount == 1)
+        #expect(fixture.model.motionDiagnostics.lastSensorTime == 20)
+        #expect(fixture.model.motionDiagnostics.maximumSensorGap == 0)
+    }
+}
+#endif
+
 struct PoseGuard__3_0_Tests {
 
     struct ThresholdCase: Sendable {

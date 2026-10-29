@@ -810,6 +810,40 @@
         }
       }
     },
+    "Headphone motion interrupted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Headphone motion interrupted"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movimento delle cuffie interrotto"
+          }
+        }
+      }
+    },
+    "PoseGuard lost the headphone motion connection. Check that your headphones are connected and worn, then tap to start again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PoseGuard lost the headphone motion connection. Check that your headphones are connected and worn, then tap to start again."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PoseGuard ha perso il collegamento ai dati di movimento delle cuffie. Verifica che siano connesse e indossate, poi tocca per riavviare."
+          }
+        }
+      }
+    },
     "Waiting for headphone motion…" : {
       "extractionState" : "manual",
       "localizations" : {

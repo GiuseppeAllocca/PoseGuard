@@ -15,9 +15,10 @@ struct TrackingView: View {
     let waveCount = 5
     
     // Add PostureMonitorModel instance
-    @StateObject private var postureMonitor = PostureMonitorModel()
+    @StateObject private var postureMonitor = PostureMonitorModel.makeForTrackingView()
     @Environment(\.openURL) private var openURL
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
     @AccessibilityFocusState private var isTipsButtonFocused: Bool
 
     private var isTracking: Bool { postureMonitor.isMonitoring }
@@ -116,19 +117,28 @@ struct TrackingView: View {
                 
                 Spacer()
                 
-                // Status text with animated reveal
-                Text(trackingStatus)
+                // L'ancora conserva la geometria; il messaggio può crescere senza animare l'altezza.
+                Text("Tap To Track")
                     .font(.system(size: 24, weight: .medium))
-                    .fixedSize(horizontal: false, vertical: true)
+                    .hidden()
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 24)
+                    .overlay {
+                        Text(trackingStatus)
+                            .font(.system(size: 24, weight: .medium))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 24)
+                            .foregroundColor(isTracking ? (postureMonitor.isPostureCorrect ? .green : .red) : .gray)
+                            .multilineTextAlignment(.center)
+                            .id(trackingStatus)
+                            .transition(.opacity)
+                            .accessibilityIdentifier("trackingStatus")
+                    }
                     .layoutPriority(1)
-                    .foregroundColor(isTracking ? (postureMonitor.isPostureCorrect ? .green : .red) : .gray)
                     .padding(.bottom, 50)
-                    .transition(.opacity)
                     .animation(.easeInOut(duration: 0.5), value: isTracking)
                     .animation(.easeInOut(duration: 0.5), value: postureMonitor.isPostureCorrect)
-                    .multilineTextAlignment(.center)
                 
                 // Main circle button with advanced animations
                 Button(action: {
@@ -193,6 +203,7 @@ struct TrackingView: View {
                                 value: rotationAnimation
                             )
                     }
+                    .frame(width: 150, height: 150)
                 }
                 .padding(.bottom, 100)
                 .scaleEffect(isTracking && !reduceMotion ? 1.05 : 1.0)
@@ -299,10 +310,14 @@ struct TrackingView: View {
         }
         .onChange(of: isTracking) { _, tracking in updateAnimations(tracking) }
         .onChange(of: reduceMotion) { updateAnimations(isTracking) }
+        .onChange(of: scenePhase) { _, phase in postureMonitor.recordScenePhase(phase) }
         .onChange(of: showTips) { _, isShowing in
             if !isShowing { isTipsButtonFocused = true }
         }
-        .onAppear { updateAnimations(isTracking) }
+        .onAppear {
+            updateAnimations(isTracking)
+            postureMonitor.recordScenePhase(scenePhase)
+        }
         .onDisappear { postureMonitor.stopMonitoring() }
     }
     
