@@ -1,496 +1,297 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
-          }
-        }
-      }
+    "%@ – %@" : {
+
     },
-    "%@ - %@" : {
+    "%@ · %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@ - %2$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ - %@"
+            "value" : "%1$@ · %2$@"
           }
         }
       }
     },
-    "%@h" : {
+    "%@, %@" : {
       "localizations" : {
-        "it" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@h"
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@"
           }
         }
       }
     },
     "%lld" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld"
-          }
-        }
-      }
+
     },
-    "%lld sess." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld sess."
-          }
-        }
-      }
+    "%lld degrees" : {
+
     },
-    "%lld%%" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%%"
-          }
-        }
-      }
+    "%lld°" : {
+
     },
-    "%lldh" : {
+    "^[%lld session](inflect: true)" : {
+
+    },
+    "^[%lld session](inflect: true) · %@" : {
       "localizations" : {
-        "it" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lldh"
+            "state" : "new",
+            "value" : "^[%1$lld session](inflect: true) · %2$@"
           }
         }
       }
     },
     "Adjust your screen height!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Regola l'altezza dello schermo!"
-          }
-        }
-      }
-    },
-    "AirPods not connected" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirPods non connesse"
-          }
-        }
-      }
+
     },
     "AirPods not detected or not supported" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirPods non rilevati o non supportati"
-          }
-        }
-      }
+      "extractionState" : "manual"
+    },
+    "Average quality: %lld%%" : {
+
     },
     "Avoid slouching and gently roll your shoulders back to open up your chest." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evita di curvare la schiena e ruota delicatamente le spalle all'indietro per aprire il torace."
-          }
-        }
-      }
+
+    },
+    "Bad" : {
+
     },
     "Bad Posture!" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cattiva"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Bad: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sbagliata: %@ ore"
-          }
-        }
-      }
+    "Check your report" : {
+
+    },
+    "Children" : {
+
+    },
+    "Close" : {
+
+    },
+    "Connect your AirPods" : {
+
+    },
+    "Contact" : {
+
     },
     "Continue" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continua"
-          }
-        }
-      }
+
     },
     "Correct Posture!" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Postura Corretta!"
-          }
-        }
-      }
+      "extractionState" : "manual"
+    },
+    "Daily" : {
+
     },
     "Daily statistics" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statistiche giornaliere"
-          }
-        }
-      }
+
     },
     "Day" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Giorno"
-          }
-        }
-      }
+
     },
-    "Duration: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Durata: %@ ore"
-          }
-        }
-      }
+    "Days" : {
+
+    },
+    "Duration: %@" : {
+
+    },
+    "Effective October 29, 2026. If this policy changes, the updated version will be published with a new effective date." : {
+
     },
     "Engage your core!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coinvolgi il tuo nucleo!"
-          }
-        }
-      }
+
     },
     "Ensure your screen is at eye level to prevent neck strain." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assicurati che lo schermo sia all'altezza degli occhi per evitare tensioni al collo."
-          }
-        }
-      }
+
     },
-    "Good: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ottimo: %@ ore"
-          }
-        }
-      }
+    "Forward" : {
+
+    },
+    "Good" : {
+
     },
     "Hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ore"
-          }
-        }
-      }
+
+    },
+    "How it works" : {
+
     },
     "Keep your feet flat on the ground!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tieni i piedi piatti a terra!"
-          }
-        }
-      }
+
     },
     "Keep your shoulders back!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tieni le spalle indietro!"
-          }
-        }
-      }
+
     },
-    "Medium Quality: %lld%%" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qualità Media: %lld%%"
-          }
-        }
-      }
+    "Last 7 days" : {
+
     },
-    "Medium: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Media: %@ ore"
-          }
-        }
-      }
+    "Medium" : {
+
+    },
+    "Motion data" : {
+
     },
     "My Report" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resoconto"
-          }
-        }
-      }
+
     },
     "No data for today" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No info per oggi"
-          }
-        }
-      }
+
+    },
+    "No sessions this week" : {
+
+    },
+    "Nothing leaves your iPhone. PoseGuard has no account, no analytics, no advertising and no third-party SDKs, and it does not track you across apps or websites." : {
+
+    },
+    "Notifications" : {
+
     },
     "OK" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
+
+    },
+    "Open an issue on GitHub" : {
+
+    },
+    "Open Settings" : {
+
+    },
+    "Permissions" : {
+
     },
     "PoseGuard" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard"
-          }
-        }
-      }
+
+    },
+    "PoseGuard asks for access to Motion & Fitness data and, optionally, for permission to send notifications. You can change either choice at any time in the Settings app." : {
+
+    },
+    "PoseGuard does not collect personal information from anyone, including children." : {
+
+    },
+    "PoseGuard uses your AirPods' motion sensors to follow your head position." : {
+
+    },
+    "Posture alerts are local notifications created on your iPhone. They are not sent through any server." : {
+
     },
     "Posture Analysis" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Analisi della postura"
-          }
-        }
-      }
+
+    },
+    "Privacy Policy" : {
+
     },
     "Quality" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qualità"
-          }
-        }
-      }
+
     },
-    "Remember this app is always working on background, to ensure the privacy of your data remember to check the user's data manual in the learn more section. We will not share your posture's data" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ricorda che questa app funziona sempre in background, per garantire la privacy dei tuoi dati ricordati di controllare il manuale dei dati utente nella sezione scopri di più. Non condivideremo i dati della tua postura"
-          }
-        }
-      }
+    "Report" : {
+
+    },
+    "See your daily and weekly progress at a glance." : {
+
+    },
+    "Session" : {
+
     },
     "Session Details" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dettagli Sessione"
-          }
-        }
-      }
+
+    },
+    "Session history" : {
+
+    },
+    "Sessions" : {
+
+    },
+    "Sideways" : {
+
     },
     "Stand up, stretch, and move around every 30-60 minutes to relieve tension." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alzatevi, fate stretching e muovetevi ogni 30-60 minuti per alleviare la tensione."
-          }
-        }
-      }
+
+    },
+    "Start tracking" : {
+
+    },
+    "Start tracking to see your posture here." : {
+
+    },
+    "Stop tracking" : {
+
     },
     "Strengthening your core muscles helps support your spine and improves posture." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rafforzare i muscoli centrali aiuta a sostenere la colonna vertebrale e migliora la postura."
-          }
-        }
-      }
+
     },
     "Take breaks regularly!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fai pause regolarmente!"
-          }
-        }
-      }
+
+    },
+    "Tap to start tracking" : {
+
     },
     "Tap to Track" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca per tracciare"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Tap To Track" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca per tracciare"
-          }
-        }
-      }
+    "The main button turns green while your posture is being tracked." : {
+
+    },
+    "These tips are general guidance, not medical advice. If you have pain or a medical condition, talk to a doctor." : {
+
+    },
+    "Time" : {
+
     },
     "Tips" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggerimenti"
-          }
-        }
-      }
+
     },
     "Today's Posture" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La Postura Di Oggi"
-          }
-        }
-      }
-    },
-    "Total hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ore Totali"
-          }
-        }
-      }
+
     },
     "Total sessions" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sessioni Totali"
-          }
-        }
-      }
+
+    },
+    "Total time" : {
+
     },
     "Tracking error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Errore durante il tracciamento"
-          }
-        }
-      }
+      "extractionState" : "manual"
+    },
+    "Waiting for headphone motion…" : {
+
     },
     "Wear your AirPods to start tracking your posture" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indossa gli AirPods per iniziare a monitorare la tua postura"
-          }
-        }
-      }
+
     },
-    "Weekly statistics" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statistiche Settimanali"
-          }
-        }
-      }
+    "Weekly" : {
+
     },
-    "What's\nPoseGuard" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cos'è PoseGuard"
-          }
-        }
-      }
+    "Welcome to PoseGuard" : {
+
+    },
+    "What PoseGuard collects" : {
+
     },
     "When sitting, make sure your feet are fully supported and not dangling." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quando sei seduto, assicurati che i tuoi piedi siano completamente supportati e non penzolanti."
-          }
-        }
-      }
+
+    },
+    "When you stop tracking, PoseGuard saves a summary of the session on your iPhone: its start and end time and the percentage of time your posture was correct. This history powers the report and stays in the app's local storage. It may be included in your device backups, according to your iCloud or computer backup settings. Deleting the app deletes the history." : {
+
+    },
+    "While a tracking session is running, PoseGuard reads your head orientation from your AirPods through Apple's Core Motion headphone motion API. The app processes these readings in real time on your iPhone to tell whether your posture is correct. Raw motion readings are not stored." : {
+
+    },
+    "Your posture data never leaves your iPhone." : {
+
     }
   },
   "version" : "1.0"

@@ -9,14 +9,12 @@ import SwiftUI
 
 @main
 struct TrackingAppApp: App {
-    init() {
-        
-        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
-    }
-    
+    @State private var sessionStore = SessionStore()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(sessionStore)
                 .preferredColorScheme(.dark)
         }
     }

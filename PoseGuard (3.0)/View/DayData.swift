@@ -6,68 +6,52 @@
 //
 
 import Foundation
-import SwiftUI
-import UIKit
 
+/// The sessions recorded on one calendar day.
 struct DayData: Identifiable, Equatable {
-    let id = UUID()
-    let day: String
+    /// Start of the day.
+    let date: Date
     let sessions: [PostureSession]
-    
-    // Ore raggruppate per categoria
-    var buonaHours: Double {
-        sessions.filter { $0.category == .buona }.reduce(0) { $0 + $1.duration }
+
+    var id: Date { date }
+    var title: String { date.formatted(.dateTime.weekday(.wide)) }
+
+    func seconds(for category: PostureCategory) -> TimeInterval {
+        sessions.filter { $0.category == category }.reduce(0) { $0 + $1.seconds }
     }
-    
-    var mediaHours: Double {
-        sessions.filter { $0.category == .media }.reduce(0) { $0 + $1.duration }
+
+    var totalSeconds: TimeInterval {
+        sessions.reduce(0) { $0 + $1.seconds }
     }
-    
-    var cattiveHours: Double {
-        sessions.filter { $0.category == .cattiva }.reduce(0) { $0 + $1.duration }
-    }
-    
-    // Statistiche giornaliere
-    var totalHours: Double {
-        sessions.reduce(0) { $0 + $1.duration }
-    }
-    
+
+    /// Quality averaged over the day, weighted by session length.
     var averageQuality: Double {
-        let weightedSum = sessions.reduce(0) { $0 + (Double($1.avgQuality) * $1.duration) }
-        return sessions.isEmpty ? 0 : weightedSum / totalHours
+        guard totalSeconds > 0 else { return 0 }
+        return sessions.reduce(0) { $0 + Double($1.avgQuality) * $1.seconds } / totalSeconds
     }
-    
-    // Implementazione di Equatable
-    static func == (lhs: DayData, rhs: DayData) -> Bool {
-        lhs.id == rhs.id && lhs.day == rhs.day
-    }
-}
 
-// Estensione per convertire codici esadecimali in Color
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (1, 1, 1, 0)
+    /// Category segments in hours, stacked bottom-up (good, medium, bad), skipping empty ones.
+    var stack: [(category: PostureCategory, start: Double, end: Double)] {
+        var top = 0.0
+        return PostureCategory.allCases.compactMap { category in
+            let hours = seconds(for: category) / 3600
+            guard hours > 0 else { return nil }
+            defer { top += hours }
+            return (category, top, top + hours)
         }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: Double(a) / 255
-        )
     }
 }
 
+extension [DayData] {
+    var sessionCount: Int { reduce(0) { $0 + $1.sessions.count } }
+    var totalSeconds: TimeInterval { reduce(0) { $0 + $1.totalSeconds } }
 
+    var averageQuality: Double {
+        guard totalSeconds > 0 else { return 0 }
+        return reduce(0) { $0 + $1.averageQuality * $1.totalSeconds } / totalSeconds
+    }
+
+    func sessionCount(for category: PostureCategory) -> Int {
+        reduce(0) { $0 + $1.sessions.filter { $0.category == category }.count }
+    }
+}

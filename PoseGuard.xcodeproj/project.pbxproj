@@ -40,6 +40,16 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B745BEC52D7F311C003ED0D4 /* PoseGuard (3.0)Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "PoseGuard (3.0)Tests";
+			sourceTree = "<group>";
+		};
+		B745BEC62D7F311C003ED0D4 /* PoseGuard (3.0)UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "PoseGuard (3.0)UITests";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +82,8 @@
 			children = (
 				B745BE742D7F2F58003ED0D4 /* PoseGuard (3.0) */,
 				B745BEC42D7F311C003ED0D4 /* Model */,
+				B745BEC52D7F311C003ED0D4 /* PoseGuard (3.0)Tests */,
+				B745BEC62D7F311C003ED0D4 /* PoseGuard (3.0)UITests */,
 				B745BE732D7F2F58003ED0D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,6 +137,9 @@
 			dependencies = (
 				B745BE842D7F2F59003ED0D4 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				B745BEC52D7F311C003ED0D4 /* PoseGuard (3.0)Tests */,
+			);
 			name = PoseGuardTests;
 			packageProductDependencies = (
 			);
@@ -144,6 +159,9 @@
 			);
 			dependencies = (
 				B745BE8E2D7F2F59003ED0D4 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B745BEC62D7F311C003ED0D4 /* PoseGuard (3.0)UITests */,
 			);
 			name = PoseGuardUITests;
 			packageProductDependencies = (
@@ -181,7 +199,6 @@
 			knownRegions = (
 				en,
 				Base,
-				it,
 			);
 			mainGroup = B745BE692D7F2F58003ED0D4;
 			minimizedProjectReferenceProxies = 1;
@@ -388,12 +405,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = UU6556PJ33;
+				DEVELOPMENT_TEAM = GVDWNB72CM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PoseGuard--3-0--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PoseGuard;
-				INFOPLIST_KEY_NSMotionUsageDescription = "This app needs access to your AirPods' gyroscope to track your posture and provide feedback for improvement";
+				INFOPLIST_KEY_NSMotionUsageDescription = "PoseGuard reads the head movement measured by your AirPods to alert you when your posture slips.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -405,7 +422,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.matteo-cotena.PoseGuardApp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.giuseppe-allocca.PoseGuardApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -425,12 +442,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = UU6556PJ33;
+				DEVELOPMENT_TEAM = GVDWNB72CM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PoseGuard--3-0--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PoseGuard;
-				INFOPLIST_KEY_NSMotionUsageDescription = "This app needs access to your AirPods' gyroscope to track your posture and provide feedback for improvement";
+				INFOPLIST_KEY_NSMotionUsageDescription = "PoseGuard reads the head movement measured by your AirPods to alert you when your posture slips.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -442,7 +459,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.matteo-cotena.PoseGuardApp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.giuseppe-allocca.PoseGuardApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -502,7 +519,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "PoseGuard (3.0)";
+				TEST_TARGET_NAME = PoseGuard;
 			};
 			name = Debug;
 		};
@@ -518,7 +535,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "PoseGuard (3.0)";
+				TEST_TARGET_NAME = PoseGuard;
 			};
 			name = Release;
 		};

@@ -5,30 +5,32 @@
 //  Created by Acri Stefano on 10/03/25.
 //
 
-import Foundation
 import SwiftUI
-// MARK: - StatView and Components
+
+// MARK: - StatView
 struct StatView: View {
-    let title: String
+    let title: LocalizedStringResource
     let value: String
     let icon: String
-    let accentColor: Color
-    let textColor: Color
-    let secondaryTextColor: Color
-    
+
     var body: some View {
-        VStack(alignment: .center, spacing: 4) {
+        VStack(spacing: 4) {
             Image(systemName: icon)
-                .foregroundColor(accentColor)
-                .font(.system(size: 16))
-            
+                .font(.title3)
+                .foregroundStyle(.tint)
+                .frame(height: 28)
+                .accessibilityHidden(true)
+
             Text(value)
-                .font(.headline)
-                .foregroundColor(textColor)
-            
+                .font(.title3.bold())
+                .fontDesign(.rounded)
+                .monospacedDigit()
+
             Text(title)
-                .font(.caption)
-                .foregroundColor(secondaryTextColor)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
         }
+        .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .combine)
     }
 }
