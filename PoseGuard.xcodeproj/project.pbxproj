@@ -199,7 +199,6 @@
 			knownRegions = (
 				en,
 				Base,
-				it,
 			);
 			mainGroup = B745BE692D7F2F58003ED0D4;
 			minimizedProjectReferenceProxies = 1;
@@ -411,7 +410,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PoseGuard--3-0--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PoseGuard;
-				INFOPLIST_KEY_NSMotionUsageDescription = "This app needs access to your AirPods' gyroscope to track your posture and provide feedback for improvement";
+				INFOPLIST_KEY_NSMotionUsageDescription = "PoseGuard reads the head movement measured by your AirPods to alert you when your posture slips.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -448,7 +447,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PoseGuard--3-0--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PoseGuard;
-				INFOPLIST_KEY_NSMotionUsageDescription = "This app needs access to your AirPods' gyroscope to track your posture and provide feedback for improvement";
+				INFOPLIST_KEY_NSMotionUsageDescription = "PoseGuard reads the head movement measured by your AirPods to alert you when your posture slips.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

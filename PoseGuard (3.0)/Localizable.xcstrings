@@ -1,118 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Connect your AirPods" : {
-      "comment" : "Istruzione dell’onboarding.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connect your AirPods"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collega i tuoi AirPods"
-          }
-        }
-      }
-    },
-    "Open Tips for everyday posture advice." : {
-      "comment" : "Istruzione dell’onboarding.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Tips for everyday posture advice."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri Suggerimenti per consigli sulla postura."
-          }
-        }
-      }
-    },
-    "Read posture tips" : {
-      "comment" : "Istruzione dell’onboarding.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Read posture tips"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Consulta i suggerimenti"
-          }
-        }
-      }
-    },
-    "Tap to start tracking" : {
-      "comment" : "Istruzione dell’onboarding.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to start tracking"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca per iniziare"
-          }
-        }
-      }
-    },
-    "The app'll use your AirPods' gyroscope to track your posture." : {
-      "comment" : "Istruzione dell’onboarding.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The app'll use your AirPods' gyroscope to track your posture."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard usa i sensori degli AirPods per monitorare la postura."
-          }
-        }
-      }
-    },
-    "When the main button goes green the app is tracking your posture." : {
-      "comment" : "Istruzione dell’onboarding.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "When the main button goes green the app is tracking your posture."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il pulsante verde indica che il monitoraggio è attivo."
-          }
-        }
-      }
-    },
-    "%@" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
-          }
-        }
-      }
-    },
+    "%@" : {},
     "%@ - %@" : {
       "localizations" : {
         "en" : {
@@ -120,804 +9,100 @@
             "state" : "new",
             "value" : "%1$@ - %2$@"
           }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ - %@"
-          }
         }
       }
     },
-    "%@h" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@h"
-          }
-        }
-      }
-    },
-    "%lld" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld"
-          }
-        }
-      }
-    },
-    "%lld sess." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld sess."
-          }
-        }
-      }
-    },
-    "%lld%%" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%%"
-          }
-        }
-      }
-    },
-    "%lldh" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lldh"
-          }
-        }
-      }
-    },
-    "Adjust your screen height!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Regola l'altezza dello schermo!"
-          }
-        }
-      }
-    },
-    "AirPods not connected" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirPods non connesse"
-          }
-        }
-      }
-    },
+    "%@ – %@" : {},
+    "%@h" : {},
+    "%@h · %@" : {},
+    "%lld" : {},
+    "%lld degrees" : {},
+    "%lld sess." : {},
+    "%lld%%" : {},
+    "%lldh" : {},
+    "%lld°" : {},
+    "Adjust your screen height!" : {},
+    "AirPods not connected" : {},
     "AirPods not detected or not supported" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirPods non rilevati o non supportati"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Allow PoseGuard to access motion data in Settings to track your posture." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allow PoseGuard to access motion data in Settings to track your posture."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Consenti a PoseGuard di accedere ai dati di movimento nelle Impostazioni per monitorare la postura."
-          }
-        }
-      }
-    },
-    "Avoid slouching and gently roll your shoulders back to open up your chest." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evita di curvare la schiena e ruota delicatamente le spalle all'indietro per aprire il torace."
-          }
-        }
-      }
-    },
+    "Average quality: %lld%%" : {},
+    "Avoid slouching and gently roll your shoulders back to open up your chest." : {},
+    "Bad" : {},
     "Bad Posture!" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cattiva"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Bad: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sbagliata: %@ ore"
-          }
-        }
-      }
-    },
-    "Cancel starting" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel starting"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annulla l’avvio"
-          }
-        }
-      }
-    },
-    "Close tips" : {
-      "comment" : "Etichetta accessibile del controllo dei suggerimenti posturali.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close tips"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chiudi i suggerimenti"
-          }
-        }
-      }
-    },
-    "Continue" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continua"
-          }
-        }
-      }
-    },
+    "Bad: %@ hours" : {},
+    "Better posture, one gentle nudge at a time." : {},
+    "Check your report" : {},
+    "Connect your AirPods" : {},
+    "Continue" : {},
     "Correct Posture!" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Postura Corretta!"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Could not read headphone motion. Try starting again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not read headphone motion. Try starting again."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non è stato possibile leggere i dati di movimento delle cuffie. Prova ad avviare nuovamente il monitoraggio."
-          }
-        }
-      }
-    },
-    "Daily statistics" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statistiche giornaliere"
-          }
-        }
-      }
-    },
-    "Day" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Giorno"
-          }
-        }
-      }
-    },
-    "Duration: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Durata: %@ ore"
-          }
-        }
-      }
-    },
-    "Engage your core!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coinvolgi il tuo nucleo!"
-          }
-        }
-      }
-    },
-    "Ensure your screen is at eye level to prevent neck strain." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assicurati che lo schermo sia all'altezza degli occhi per evitare tensioni al collo."
-          }
-        }
-      }
-    },
-    "Good: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ottimo: %@ ore"
-          }
-        }
-      }
-    },
-    "Headphone motion is unavailable. Connect compatible headphones, then try again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Headphone motion is unavailable. Connect compatible headphones, then try again."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I dati di movimento delle cuffie non sono disponibili. Collega cuffie compatibili, poi riprova."
-          }
-        }
-      }
-    },
-    "Headphone motion unavailable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Headphone motion unavailable"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dati di movimento delle cuffie non disponibili"
-          }
-        }
-      }
-    },
-    "Hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ore"
-          }
-        }
-      }
-    },
-    "Keep your feet flat on the ground!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tieni i piedi piatti a terra!"
-          }
-        }
-      }
-    },
-    "Keep your shoulders back!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tieni le spalle indietro!"
-          }
-        }
-      }
-    },
-    "Medium Quality: %lld%%" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qualità Media: %lld%%"
-          }
-        }
-      }
-    },
-    "Medium: %@ hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Media: %@ ore"
-          }
-        }
-      }
-    },
-    "Motion access denied" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Motion access denied"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accesso al movimento negato"
-          }
-        }
-      }
-    },
-    "Motion access is restricted on this device. Check its privacy settings and restrictions." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Motion access is restricted on this device. Check its privacy settings and restrictions."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’accesso ai dati di movimento è limitato su questo dispositivo. Controlla le impostazioni di privacy e le restrizioni."
-          }
-        }
-      }
-    },
-    "Motion access restricted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Motion access restricted"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accesso al movimento limitato"
-          }
-        }
-      }
-    },
-    "My Report" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resoconto"
-          }
-        }
-      }
-    },
-    "No data for today" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No info per oggi"
-          }
-        }
-      }
-    },
-    "OK" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
-    },
-    "Open Settings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Settings"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri Impostazioni"
-          }
-        }
-      }
-    },
-    "PoseGuard" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard"
-          }
-        }
-      }
-    },
-    "PoseGuard cannot access headphone motion because of an app configuration issue." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard cannot access headphone motion because of an app configuration issue."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard non può accedere ai dati di movimento delle cuffie a causa di un problema di configurazione dell’app."
-          }
-        }
-      }
-    },
-    "Posture Analysis" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Analisi della postura"
-          }
-        }
-      }
-    },
-    "Quality" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qualità"
-          }
-        }
-      }
-    },
-    "Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Monitoring continues with the screen locked until you stop it." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I dati di movimento sono elaborati sul dispositivo. PoseGuard salva la preferenza dell'onboarding e usa notifiche locali. Il monitoraggio continua a schermo bloccato finché non lo fermi."
-          }
-        }
-      }
-    },
-    "Session Details" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dettagli Sessione"
-          }
-        }
-      }
-    },
-    "Show posture tips" : {
-      "comment" : "Etichetta accessibile del controllo dei suggerimenti posturali.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show posture tips"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra i suggerimenti posturali"
-          }
-        }
-      }
-    },
-    "Stand up, stretch, and move around every 30-60 minutes to relieve tension." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alzatevi, fate stretching e muovetevi ogni 30-60 minuti per alleviare la tensione."
-          }
-        }
-      }
-    },
-    "Start tracking" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start tracking"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avvia il monitoraggio"
-          }
-        }
-      }
-    },
-    "Stop tracking" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop tracking"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interrompi il monitoraggio"
-          }
-        }
-      }
-    },
-    "Strengthening your core muscles helps support your spine and improves posture." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rafforzare i muscoli centrali aiuta a sostenere la colonna vertebrale e migliora la postura."
-          }
-        }
-      }
-    },
-    "Take breaks regularly!" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fai pause regolarmente!"
-          }
-        }
-      }
-    },
+    "Daily" : {},
+    "Daily statistics" : {},
+    "Day" : {},
+    "Days" : {},
+    "Done" : {},
+    "Duration: %@ hours" : {},
+    "Engage your core!" : {},
+    "Ensure your screen is at eye level to prevent neck strain." : {},
+    "Forward" : {},
+    "Good" : {},
+    "Good: %@ hours" : {},
+    "Hours" : {},
+    "How it works" : {},
+    "Keep it up, you're sitting tall." : {},
+    "Keep your feet flat on the ground!" : {},
+    "Keep your shoulders back!" : {},
+    "Lift your head and relax your shoulders." : {},
+    "Medium" : {},
+    "Medium Quality: %lld%%" : {},
+    "Medium: %@ hours" : {},
+    "My Report" : {},
+    "No data for today" : {},
+    "OK" : {},
+    "PoseGuard" : {},
+    "PoseGuard uses your AirPods' motion sensors to follow your head position." : {},
+    "PoseGuard works in the background. Your posture data never leaves your iPhone." : {},
+    "Posture Analysis" : {},
+    "Put on AirPods with motion sensors, then try again." : {},
+    "Quality" : {},
+    "Ready when you are" : {},
+    "Remember this app is always working on background, to ensure the privacy of your data remember to check the user's data manual in the learn more section. We will not share your posture's data" : {},
+    "Report" : {},
+    "See your daily and weekly progress at a glance." : {},
+    "Session" : {},
+    "Session Details" : {},
+    "Sessions" : {},
+    "Sideways" : {},
+    "Stand up, stretch, and move around every 30-60 minutes to relieve tension." : {},
+    "Start tracking" : {},
+    "Stop tracking" : {},
+    "Strengthening your core muscles helps support your spine and improves posture." : {},
+    "Take breaks regularly!" : {},
+    "Tap To Track" : {},
     "Tap to Track" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca per tracciare"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Tap To Track" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca per tracciare"
-          }
-        }
-      }
-    },
-    "Tips" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggerimenti"
-          }
-        }
-      }
-    },
-    "Today's Posture" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La Postura Di Oggi"
-          }
-        }
-      }
-    },
-    "Total hours" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ore Totali"
-          }
-        }
-      }
-    },
-    "Total sessions" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sessioni Totali"
-          }
-        }
-      }
-    },
+    "Tap to start tracking" : {},
+    "The main button turns green while your posture is being tracked." : {},
+    "Tips" : {},
+    "Today's Posture" : {},
+    "Total hours" : {},
+    "Total sessions" : {},
     "Tracking error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Errore durante il tracciamento"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
-    "Tracking unavailable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tracking unavailable"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monitoraggio non disponibile"
-          }
-        }
-      }
-    },
-    "Headphone motion interrupted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Headphone motion interrupted"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movimento delle cuffie interrotto"
-          }
-        }
-      }
-    },
-    "PoseGuard lost the headphone motion connection. Check that your headphones are connected and worn, then tap to start again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard lost the headphone motion connection. Check that your headphones are connected and worn, then tap to start again."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PoseGuard ha perso il collegamento ai dati di movimento delle cuffie. Verifica che siano connesse e indossate, poi tocca per riavviare."
-          }
-        }
-      }
-    },
-    "Waiting for headphone motion…" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Waiting for headphone motion…"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In attesa dei dati di movimento delle cuffie…"
-          }
-        }
-      }
-    },
-    "Wear your AirPods to start tracking your posture" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indossa gli AirPods per iniziare a monitorare la tua postura"
-          }
-        }
-      }
-    },
-    "Weekly statistics" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statistiche Settimanali"
-          }
-        }
-      }
-    },
-    "What's\nPoseGuard" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cos'è PoseGuard"
-          }
-        }
-      }
-    },
-    "When sitting, make sure your feet are fully supported and not dangling." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quando sei seduto, assicurati che i tuoi piedi siano completamente supportati e non penzolanti."
-          }
-        }
-      }
-    },
-    "Your headphones disconnected. Reconnect them, then tap to start again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your headphones disconnected. Reconnect them, then tap to start again."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le cuffie si sono disconnesse. Ricollegale, poi tocca il pulsante per riprendere."
-          }
-        }
-      }
-    }
+    "Wear your AirPods to start tracking your posture" : {},
+    "Wear your AirPods, then tap the button." : {},
+    "Weekly" : {},
+    "Weekly statistics" : {},
+    "Welcome to PoseGuard" : {},
+    "What's\nPoseGuard" : {},
+    "When sitting, make sure your feet are fully supported and not dangling." : {},
+    "^[%lld session](inflect: true) · %@h" : {}
   },
   "version" : "1.0"
 }

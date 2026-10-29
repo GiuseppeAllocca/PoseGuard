@@ -14,40 +14,26 @@ final class PoseGuard__3_0_UITests: XCTestCase {
     }
 
     @MainActor
-    func testTrackingStatusKeepsItsPosition() throws {
+    func testTrackingSequenceStartsAndStops() throws {
         #if targetEnvironment(simulator)
-        for language in ["en", "it"] {
-            let app = XCUIApplication()
-            defer { app.terminate() }
-            app.launchEnvironment["POSEGUARD_UI_TRACKING_SEQUENCE"] = "1"
-            app.launchArguments = ["-AppleLanguages", "(\(language))", "-AppleLocale", language == "en" ? "en_US" : "it_IT"]
-            app.launch()
-            let continueButton = app.buttons[language == "en" ? "Continue" : "Continua"]
-            if continueButton.waitForExistence(timeout: 2) { continueButton.tap() }
-            let labels = language == "en"
-                ? ["Tap To Track", "Waiting for headphone motion…", "Correct Posture!", "Bad Posture!"]
-                : ["Tocca per tracciare", "In attesa dei dati di movimento delle cuffie…", "Postura Corretta!", "Cattiva"]
-            var frames: [CGRect] = []
-            for (index, label) in labels.enumerated() {
-                let status = app.staticTexts.matching(identifier: "trackingStatus").matching(NSPredicate(format: "label == %@", label)).firstMatch
-                XCTAssertTrue(status.waitForExistence(timeout: 10), "Stato mancante: \(label)")
-                frames.append(status.frame)
-                let screenshot = XCTAttachment(screenshot: app.screenshot())
-                screenshot.name = "Tracking \(language) \(index)"
-                screenshot.lifetime = .keepAlways
-                add(screenshot)
-                if index == 0 { app.buttons["Airpods Pro"].tap() }
-            }
-            let measurement = XCTAttachment(string: frames.enumerated().map { "\(labels[$0.offset]): \($0.element)" }.joined(separator: "\n"))
-            measurement.name = "Geometria del testo \(language)"
-            measurement.lifetime = .keepAlways
-            add(measurement)
-            for frame in frames.dropFirst() {
-                XCTAssertEqual(frame.midY, frames[0].midY, accuracy: 1, "Il cambio di stato sposta il centro del testo")
-                XCTAssertGreaterThan(frame.height, 0)
-                XCTAssertTrue(app.frame.contains(frame), "Il testo esce dallo schermo")
-            }
+        let app = XCUIApplication()
+        defer { app.terminate() }
+        app.launchEnvironment["POSEGUARD_UI_TRACKING_SEQUENCE"] = "1"
+        app.launchPoseGuardInEnglish(testCase: self)
+        app.completeOnboardingIfNeeded()
+
+        app.buttons["Start tracking"].tap()
+        for label in ["Waiting for headphone motion…", "Correct Posture!", "Bad Posture!"] {
+            XCTAssertTrue(app.staticTexts[label].waitForExistence(timeout: 10), "Stato mancante: \(label)")
         }
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Tracking con postura scorretta"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+
+        app.buttons["Stop tracking"].tap()
+        XCTAssertTrue(app.buttons["Start tracking"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["Bad Posture!"].exists)
         #else
         throw XCTSkip("La sequenza controllata è disponibile soltanto sul Simulator.")
         #endif
@@ -60,62 +46,14 @@ final class PoseGuard__3_0_UITests: XCTestCase {
         app.launchPoseGuardInEnglish(testCase: self)
         app.completeOnboardingIfNeeded()
 
-        let titleButton = app.buttons["PoseGuard"]
-        XCTAssertTrue(titleButton.waitForExistence(timeout: 5))
-        titleButton.tap()
-
+        app.buttons["How it works"].tap()
         let continueButton = app.buttons["Continue"]
         XCTAssertTrue(continueButton.waitForExistence(timeout: 5))
-        for instruction in [
-            "Connect your AirPods",
-            "The app'll use your AirPods' gyroscope to track your posture.",
-            "Tap to start tracking",
-            "When the main button goes green the app is tracking your posture.",
-            "Read posture tips",
-            "Open Tips for everyday posture advice."
-        ] {
+        for instruction in ["Connect your AirPods", "Tap to start tracking", "Check your report"] {
             XCTAssertTrue(app.staticTexts[instruction].exists, "Istruzione mancante: \(instruction)")
         }
-        let screenshot = XCTAttachment(screenshot: app.screenshot())
-        screenshot.name = "Onboarding in inglese"
-        screenshot.lifetime = .keepAlways
-        add(screenshot)
         continueButton.tap()
-        app.dismissSimulatorPermissionPromptsIfNeeded()
-
-        XCTAssertTrue(app.staticTexts["Tap To Track"].waitForExistence(timeout: 5))
-    }
-
-    @MainActor
-    func testOnboardingInstructionsAreAvailableInItalian() {
-        let app = XCUIApplication()
-        defer { app.terminate() }
-        app.launchArguments = ["-AppleLanguages", "(it)", "-AppleLocale", "it_IT"]
-        app.launch()
-
-        let continueButton = app.buttons["Continua"]
-        if !continueButton.waitForExistence(timeout: 3) {
-            let titleButton = app.buttons["PoseGuard"]
-            XCTAssertTrue(titleButton.waitForExistence(timeout: 5))
-            titleButton.tap()
-        }
-        XCTAssertTrue(continueButton.waitForExistence(timeout: 5))
-        for instruction in [
-            "Collega i tuoi AirPods",
-            "PoseGuard usa i sensori degli AirPods per monitorare la postura.",
-            "Tocca per iniziare",
-            "Il pulsante verde indica che il monitoraggio è attivo.",
-            "Consulta i suggerimenti",
-            "Apri Suggerimenti per consigli sulla postura."
-        ] {
-            XCTAssertTrue(app.staticTexts[instruction].exists, "Istruzione mancante: \(instruction)")
-        }
-        let screenshot = XCTAttachment(screenshot: app.screenshot())
-        screenshot.name = "Onboarding in italiano"
-        screenshot.lifetime = .keepAlways
-        add(screenshot)
-        continueButton.tap()
-        XCTAssertTrue(app.staticTexts["Tocca per tracciare"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Start tracking"].waitForExistence(timeout: 5))
     }
 
     @MainActor
@@ -125,92 +63,13 @@ final class PoseGuard__3_0_UITests: XCTestCase {
         app.launchPoseGuardInEnglish(testCase: self)
         app.completeOnboardingIfNeeded()
 
-        let tipsButton = app.buttons["Show posture tips"]
-        let closeButton = app.buttons["Close tips"]
-        let trackingButton = app.buttons["Airpods Pro"]
-        XCTAssertTrue(tipsButton.waitForExistence(timeout: 5))
-        XCTAssertFalse(closeButton.isHittable)
-        XCTAssertFalse(app.staticTexts["Tips"].isHittable)
-
         for _ in 0..<2 {
-            tipsButton.tap()
-            XCTAssertTrue(closeButton.waitForExistence(timeout: 5))
+            app.buttons["Tips"].tap()
             XCTAssertTrue(app.staticTexts["Keep your shoulders back!"].waitForExistence(timeout: 5))
-            let closeIsReady = XCTNSPredicateExpectation(
-                predicate: NSPredicate { _, _ in closeButton.isHittable },
-                object: nil
-            )
-            XCTAssertEqual(XCTWaiter.wait(for: [closeIsReady], timeout: 5), .completed)
-            XCTAssertGreaterThanOrEqual(closeButton.frame.width, 44)
-            XCTAssertGreaterThanOrEqual(closeButton.frame.height, 44)
-            XCTAssertFalse(trackingButton.isHittable)
-            XCTAssertFalse(app.buttons["PoseGuard"].isHittable)
-            let screenshot = XCTAttachment(screenshot: app.screenshot())
-            screenshot.name = "Pannello suggerimenti con chiusura accessibile"
-            screenshot.lifetime = .keepAlways
-            add(screenshot)
-            closeButton.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5)).tap()
-
-            let returnedToHome = XCTNSPredicateExpectation(
-                predicate: NSPredicate { _, _ in
-                    !closeButton.isHittable && tipsButton.isHittable && trackingButton.isHittable
-                        && !app.staticTexts["Tips"].isHittable
-                },
-                object: nil
-            )
-            XCTAssertEqual(XCTWaiter.wait(for: [returnedToHome], timeout: 5), .completed)
+            app.buttons["Close"].tap()
+            XCTAssertTrue(app.buttons["Start tracking"].waitForExistence(timeout: 5))
+            XCTAssertFalse(app.staticTexts["Keep your shoulders back!"].exists)
         }
-    }
-
-    @MainActor
-    func testTipsCanBeDismissedByDraggingUp() {
-        let app = XCUIApplication()
-        defer { app.terminate() }
-        app.launchPoseGuardInEnglish(testCase: self)
-        app.completeOnboardingIfNeeded()
-        let tipsButton = app.buttons["Show posture tips"]
-        let closeButton = app.buttons["Close tips"]
-        let handle = app.descendants(matching: .any)["tipsDismissHandle"]
-
-        tipsButton.tap()
-        XCTAssertTrue(handle.waitForExistence(timeout: 5))
-        let ready = XCTNSPredicateExpectation(
-            predicate: NSPredicate { _, _ in
-                closeButton.isHittable && handle.frame.minY >= 0 && handle.frame.maxY < app.frame.maxY
-            },
-            object: nil
-        )
-        XCTAssertEqual(
-            XCTWaiter.wait(for: [ready], timeout: 5), .completed,
-            "Pannello non pronto: Chiudi tappabile=\(closeButton.isHittable), maniglia=\(handle.frame)"
-        )
-        XCTAssertGreaterThanOrEqual(handle.frame.height, 44)
-        XCTAssertGreaterThan(handle.frame.midY, app.frame.height * 0.8)
-        XCTAssertLessThan(handle.frame.maxY, app.frame.maxY)
-
-        app.scrollViews.containing(.staticText, identifier: "Keep your shoulders back!").firstMatch.swipeDown()
-        XCTAssertTrue(closeButton.isHittable)
-        let screenshot = XCTAttachment(screenshot: app.screenshot())
-        screenshot.name = "Suggerimenti con maniglia inferiore"
-        screenshot.lifetime = .keepAlways
-        add(screenshot)
-        handle.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
-            .press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)))
-        let closed = XCTNSPredicateExpectation(
-            predicate: NSPredicate { _, _ in tipsButton.isHittable && !closeButton.isHittable },
-            object: nil
-        )
-        XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 5), .completed)
-
-        tipsButton.tap()
-        XCTAssertTrue(closeButton.waitForExistence(timeout: 5))
-        let header = app.staticTexts["Tips"].coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
-        header.press(forDuration: 0.05, thenDragTo: header.withOffset(CGVector(dx: 0, dy: -40)))
-        let closedFromHeader = XCTNSPredicateExpectation(
-            predicate: NSPredicate { _, _ in tipsButton.isHittable && !closeButton.isHittable },
-            object: nil
-        )
-        XCTAssertEqual(XCTWaiter.wait(for: [closedFromHeader], timeout: 5), .completed)
     }
 
     @MainActor
@@ -221,7 +80,7 @@ final class PoseGuard__3_0_UITests: XCTestCase {
         app.launchPoseGuardInEnglish(testCase: self)
         app.completeOnboardingIfNeeded()
 
-        let trackingButton = app.buttons["Airpods Pro"]
+        let trackingButton = app.buttons["Start tracking"]
         XCTAssertTrue(trackingButton.waitForExistence(timeout: 5))
         trackingButton.tap()
         app.dismissSimulatorPermissionPromptsIfNeeded()
@@ -244,15 +103,11 @@ final class PoseGuard__3_0_UITests: XCTestCase {
             }
             alert.buttons["OK"].tap()
         } else {
-            XCTAssertTrue(waitingStatus.exists)
-            XCTAssertEqual(trackingButton.label, "Cancel starting")
-            trackingButton.tap()
+            app.buttons["Stop tracking"].tap()
         }
         let idleState = XCTNSPredicateExpectation(
             predicate: NSPredicate { _, _ in
-                !app.alerts.firstMatch.exists
-                    && app.staticTexts["Tap To Track"].exists
-                    && trackingButton.label == "Start tracking"
+                !app.alerts.firstMatch.exists && trackingButton.exists
             },
             object: nil
         )
@@ -288,7 +143,7 @@ extension XCUIApplication {
             continueButton.tap()
         }
         dismissSimulatorPermissionPromptsIfNeeded()
-        XCTAssertTrue(staticTexts["Tap To Track"].waitForExistence(timeout: 5))
+        XCTAssertTrue(buttons["Start tracking"].waitForExistence(timeout: 5))
     }
 
     @MainActor

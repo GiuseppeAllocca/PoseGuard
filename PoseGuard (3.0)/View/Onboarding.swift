@@ -5,127 +5,96 @@
 //  Created by Acri Stefano on 10/03/25.
 //
 
-import Foundation
-
 import SwiftUI
 
 struct OnboardingView: View {
     @Binding var hasCompletedOnboarding: Bool
-    @State private var navigateToTrackingView = false
-    
+    @State private var showPrivacyPolicy = false
+
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
-                
-                VStack(spacing: 25) {
-                    Spacer()
-                    
-                    Text("What's\nPoseGuard")
-                        .font(.system(size: 40, weight: .bold))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white)
-                        .padding(.bottom, 30)
-                    
+        ScrollView {
+            VStack(spacing: 40) {
+                VStack(spacing: 16) {
+                    Image(systemName: "figure.stand")
+                        .font(.largeTitle)
+                        .imageScale(.large)
+                        .foregroundStyle(.tint)
+                        .frame(width: 96, height: 96)
+                        .background(.tint.opacity(0.15), in: .circle)
+                        .symbolEffect(.bounce, options: .nonRepeating)
+                        .accessibilityHidden(true)
+
+                    Text("Welcome to PoseGuard")
+                        .font(.largeTitle.bold())
+                        .fontDesign(.rounded)
+                }
+                .multilineTextAlignment(.center)
+
+                VStack(alignment: .leading, spacing: 28) {
                     InstructionRow(
                         icon: "airpodspro",
                         title: "Connect your AirPods",
-                        description: "The app'll use your AirPods' gyroscope to track your posture."
+                        description: "PoseGuard uses your AirPods' motion sensors to follow your head position."
                     )
-                    
+
                     InstructionRow(
                         icon: "hand.tap",
                         title: "Tap to start tracking",
-                        description: "When the main button goes green the app is tracking your posture."
+                        description: "The main button turns green while your posture is being tracked."
                     )
-                    
+
                     InstructionRow(
-                        icon: "lightbulb",
-                        title: "Read posture tips",
-                        description: "Open Tips for everyday posture advice."
+                        icon: "chart.bar.xaxis",
+                        title: "Check your report",
+                        description: "See your daily and weekly progress at a glance."
                     )
-                    
-                    Spacer()
-                    
-                    VStack(spacing: 12) {
-                        // Sostituito il ProfileButton con una visualizzazione non cliccabile
-                        ProfileIcon()
-                        
-                        Text("Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Monitoring continues with the screen locked until you stop it.")
-                            .font(.system(size: 12))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.gray)
-                            .padding(.horizontal)
-                        
-//                        Button("See how your data is managed...") {
-//                            // Action
-//                        }
-                        .font(.system(size: 14))
-                        .foregroundColor(.green)
-                    }
-                    
-                    Button(action: {
-                        hasCompletedOnboarding = true
-                    }) {
-                        Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green)
-                            .cornerRadius(15)
-                            .padding(.horizontal)
-                    }
-                    .padding(.vertical)
                 }
-                .padding()
             }
-            .navigationBarHidden(true)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 48)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
-    }
-}
+        .scrollBounceBehavior(.basedOnSize)
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 16) {
+                VStack(spacing: 4) {
+                    Label("Your posture data never leaves your iPhone.", systemImage: "lock.shield")
+                        .foregroundStyle(.secondary)
 
-struct InstructionRow: View {
-    let icon: String
-    let title: LocalizedStringKey
-    let description: LocalizedStringKey
-    
-    var body: some View {
-        HStack(alignment: .top, spacing: 15) {
-            Image(systemName: icon)
-                .font(.system(size: 24))
-                .foregroundColor(.green)
-                .frame(width: 40, height: 40)
-            
-            VStack(alignment: .leading, spacing: 5) {
-                Text(title)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .lineLimit(2)
+                    Button("Privacy Policy") { showPrivacyPolicy = true }
+                        .bold()
+                }
+                .font(.footnote)
+
+                continueButton
             }
-            Spacer()
+            .padding(24)
+            .background(.bar)
         }
-        .padding(.horizontal)
+        .sheet(isPresented: $showPrivacyPolicy) {
+            PrivacyPolicyView()
+        }
     }
-}
 
-// Versione non cliccabile dell'omino
-struct ProfileIcon: View {
-    var body: some View {
-        ZStack {
-            Circle()
-                .frame(width: 40, height: 40)
-                .foregroundColor(.green)
-            
-            Image(systemName: "person.fill")
-                .foregroundColor(.black)
-                .font(.system(size: 20))
+    @ViewBuilder
+    private var continueButton: some View {
+        let button = Button(action: completeOnboarding) {
+            Text("Continue")
+                .bold()
+                .foregroundStyle(.black)
+                .frame(maxWidth: .infinity)
         }
+        .controlSize(.large)
+        .buttonBorderShape(.capsule)
+
+        if #available(iOS 26, *) {
+            button.buttonStyle(.glassProminent)
+        } else {
+            button.buttonStyle(.borderedProminent)
+        }
+    }
+
+    private func completeOnboarding() {
+        hasCompletedOnboarding = true
     }
 }
 

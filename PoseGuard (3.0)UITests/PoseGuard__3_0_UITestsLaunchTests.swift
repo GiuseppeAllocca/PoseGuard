@@ -20,8 +20,8 @@ final class PoseGuard__3_0_UITestsLaunchTests: XCTestCase {
         app.launchPoseGuardInEnglish(testCase: self)
         app.completeOnboardingIfNeeded()
 
-        XCTAssertTrue(app.buttons["PoseGuard"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["Airpods Pro"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["How it works"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Start tracking"].waitForExistence(timeout: 5))
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Schermata principale dopo l'avvio"
