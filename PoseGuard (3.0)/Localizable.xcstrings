@@ -1,108 +1,298 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {},
-    "%@ - %@" : {
+    "%@ – %@" : {
+
+    },
+    "%@ · %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@ - %2$@"
+            "value" : "%1$@ · %2$@"
           }
         }
       }
     },
-    "%@ – %@" : {},
-    "%@h" : {},
-    "%@h · %@" : {},
-    "%lld" : {},
-    "%lld degrees" : {},
-    "%lld sess." : {},
-    "%lld%%" : {},
-    "%lldh" : {},
-    "%lld°" : {},
-    "Adjust your screen height!" : {},
-    "AirPods not connected" : {},
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld degrees" : {
+
+    },
+    "%lld°" : {
+
+    },
+    "^[%lld session](inflect: true)" : {
+
+    },
+    "^[%lld session](inflect: true) · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "^[%1$lld session](inflect: true) · %2$@"
+          }
+        }
+      }
+    },
+    "Adjust your screen height!" : {
+
+    },
     "AirPods not detected or not supported" : {
       "extractionState" : "manual"
     },
-    "Average quality: %lld%%" : {},
-    "Avoid slouching and gently roll your shoulders back to open up your chest." : {},
-    "Bad" : {},
+    "Average quality: %lld%%" : {
+
+    },
+    "Avoid slouching and gently roll your shoulders back to open up your chest." : {
+
+    },
+    "Bad" : {
+
+    },
     "Bad Posture!" : {
       "extractionState" : "manual"
     },
-    "Bad: %@ hours" : {},
-    "Better posture, one gentle nudge at a time." : {},
-    "Check your report" : {},
-    "Connect your AirPods" : {},
-    "Continue" : {},
+    "Check your report" : {
+
+    },
+    "Children" : {
+
+    },
+    "Close" : {
+
+    },
+    "Connect your AirPods" : {
+
+    },
+    "Contact" : {
+
+    },
+    "Continue" : {
+
+    },
     "Correct Posture!" : {
       "extractionState" : "manual"
     },
-    "Daily" : {},
-    "Daily statistics" : {},
-    "Day" : {},
-    "Days" : {},
-    "Done" : {},
-    "Duration: %@ hours" : {},
-    "Engage your core!" : {},
-    "Ensure your screen is at eye level to prevent neck strain." : {},
-    "Forward" : {},
-    "Good" : {},
-    "Good: %@ hours" : {},
-    "Hours" : {},
-    "How it works" : {},
-    "Keep it up, you're sitting tall." : {},
-    "Keep your feet flat on the ground!" : {},
-    "Keep your shoulders back!" : {},
-    "Lift your head and relax your shoulders." : {},
-    "Medium" : {},
-    "Medium Quality: %lld%%" : {},
-    "Medium: %@ hours" : {},
-    "My Report" : {},
-    "No data for today" : {},
-    "OK" : {},
-    "PoseGuard" : {},
-    "PoseGuard uses your AirPods' motion sensors to follow your head position." : {},
-    "PoseGuard works in the background. Your posture data never leaves your iPhone." : {},
-    "Posture Analysis" : {},
-    "Put on AirPods with motion sensors, then try again." : {},
-    "Quality" : {},
-    "Ready when you are" : {},
-    "Remember this app is always working on background, to ensure the privacy of your data remember to check the user's data manual in the learn more section. We will not share your posture's data" : {},
-    "Report" : {},
-    "See your daily and weekly progress at a glance." : {},
-    "Session" : {},
-    "Session Details" : {},
-    "Sessions" : {},
-    "Sideways" : {},
-    "Stand up, stretch, and move around every 30-60 minutes to relieve tension." : {},
-    "Start tracking" : {},
-    "Stop tracking" : {},
-    "Strengthening your core muscles helps support your spine and improves posture." : {},
-    "Take breaks regularly!" : {},
-    "Tap To Track" : {},
+    "Daily" : {
+
+    },
+    "Daily statistics" : {
+
+    },
+    "Day" : {
+
+    },
+    "Days" : {
+
+    },
+    "Duration: %@" : {
+
+    },
+    "Effective October 29, 2026. If this policy changes, the updated version will be published with a new effective date." : {
+
+    },
+    "Engage your core!" : {
+
+    },
+    "Ensure your screen is at eye level to prevent neck strain." : {
+
+    },
+    "Forward" : {
+
+    },
+    "Good" : {
+
+    },
+    "Hours" : {
+
+    },
+    "How it works" : {
+
+    },
+    "Keep your feet flat on the ground!" : {
+
+    },
+    "Keep your shoulders back!" : {
+
+    },
+    "Last 7 days" : {
+
+    },
+    "Medium" : {
+
+    },
+    "Motion data" : {
+
+    },
+    "My Report" : {
+
+    },
+    "No data for today" : {
+
+    },
+    "No sessions this week" : {
+
+    },
+    "Nothing leaves your iPhone. PoseGuard has no account, no analytics, no advertising and no third-party SDKs, and it does not track you across apps or websites." : {
+
+    },
+    "Notifications" : {
+
+    },
+    "OK" : {
+
+    },
+    "Open an issue on GitHub" : {
+
+    },
+    "Open Settings" : {
+
+    },
+    "Permissions" : {
+
+    },
+    "PoseGuard" : {
+
+    },
+    "PoseGuard asks for access to Motion & Fitness data and, optionally, for permission to send notifications. You can change either choice at any time in the Settings app." : {
+
+    },
+    "PoseGuard does not collect personal information from anyone, including children." : {
+
+    },
+    "PoseGuard uses your AirPods' motion sensors to follow your head position." : {
+
+    },
+    "Posture alerts are local notifications created on your iPhone. They are not sent through any server." : {
+
+    },
+    "Posture Analysis" : {
+
+    },
+    "Privacy Policy" : {
+
+    },
+    "Quality" : {
+
+    },
+    "Report" : {
+
+    },
+    "See your daily and weekly progress at a glance." : {
+
+    },
+    "Session" : {
+
+    },
+    "Session Details" : {
+
+    },
+    "Session history" : {
+
+    },
+    "Sessions" : {
+
+    },
+    "Sideways" : {
+
+    },
+    "Stand up, stretch, and move around every 30-60 minutes to relieve tension." : {
+
+    },
+    "Start tracking" : {
+
+    },
+    "Start tracking to see your posture here." : {
+
+    },
+    "Stop tracking" : {
+
+    },
+    "Strengthening your core muscles helps support your spine and improves posture." : {
+
+    },
+    "Take breaks regularly!" : {
+
+    },
+    "Tap to start tracking" : {
+
+    },
     "Tap to Track" : {
       "extractionState" : "manual"
     },
-    "Tap to start tracking" : {},
-    "The main button turns green while your posture is being tracked." : {},
-    "Tips" : {},
-    "Today's Posture" : {},
-    "Total hours" : {},
-    "Total sessions" : {},
+    "The main button turns green while your posture is being tracked." : {
+
+    },
+    "These tips are general guidance, not medical advice. If you have pain or a medical condition, talk to a doctor." : {
+
+    },
+    "Time" : {
+
+    },
+    "Tips" : {
+
+    },
+    "Today's Posture" : {
+
+    },
+    "Total sessions" : {
+
+    },
+    "Total time" : {
+
+    },
     "Tracking error" : {
       "extractionState" : "manual"
     },
-    "Wear your AirPods to start tracking your posture" : {},
-    "Wear your AirPods, then tap the button." : {},
-    "Weekly" : {},
-    "Weekly statistics" : {},
-    "Welcome to PoseGuard" : {},
-    "What's\nPoseGuard" : {},
-    "When sitting, make sure your feet are fully supported and not dangling." : {},
-    "^[%lld session](inflect: true) · %@h" : {}
+    "Waiting for headphone motion…" : {
+
+    },
+    "Wear your AirPods to start tracking your posture" : {
+
+    },
+    "Weekly" : {
+
+    },
+    "Welcome to PoseGuard" : {
+
+    },
+    "What PoseGuard collects" : {
+
+    },
+    "When sitting, make sure your feet are fully supported and not dangling." : {
+
+    },
+    "When you stop tracking, PoseGuard saves a summary of the session on your iPhone: its start and end time and the percentage of time your posture was correct. This history powers the report and stays in the app's local storage. It may be included in your device backups, according to your iCloud or computer backup settings. Deleting the app deletes the history." : {
+
+    },
+    "While a tracking session is running, PoseGuard reads your head orientation from your AirPods through Apple's Core Motion headphone motion API. The app processes these readings in real time on your iPhone to tell whether your posture is correct. Raw motion readings are not stored." : {
+
+    },
+    "Your posture data never leaves your iPhone." : {
+
+    }
   },
   "version" : "1.0"
 }
