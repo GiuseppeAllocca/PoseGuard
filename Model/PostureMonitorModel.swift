@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreMotion
 import UserNotifications
+import AVFAudio
 #if DEBUG
 import OSLog
 #endif
@@ -30,11 +31,13 @@ protocol PostureMotionSource: AnyObject {
 final class HeadphoneMotionSource: PostureMotionSource {
     private let manager = CMHeadphoneMotionManager()
     private var connectionDelegate: HeadphoneConnectionDelegate?
+    private let keepAlive = BackgroundAudioKeepAlive()
 
     var isDeviceMotionAvailable: Bool { manager.isDeviceMotionAvailable }
     var authorizationStatus: CMAuthorizationStatus { CMHeadphoneMotionManager.authorizationStatus() }
 
     func startUpdates(_ handler: @escaping (PostureMotionSample?, Error?) -> Void, onDisconnect: @escaping () -> Void) {
+        keepAlive.start()
         let delegate = HeadphoneConnectionDelegate(onDisconnect: onDisconnect)
         connectionDelegate = delegate
         manager.delegate = delegate
@@ -60,6 +63,60 @@ final class HeadphoneMotionSource: PostureMotionSource {
         connectionDelegate = nil
         manager.stopDeviceMotionUpdates()
         manager.stopConnectionStatusUpdates()
+        keepAlive.stop()
+    }
+}
+
+// Senza audio attivo iOS sospende l'app a schermo bloccato e i campioni degli AirPods si fermano:
+// durante il monitoraggio si riproduce silenzio, mescolato all'audio delle altre app.
+final class BackgroundAudioKeepAlive {
+    private let engine = AVAudioEngine()
+    private var interruptionObserver: NSObjectProtocol?
+
+    init() {
+        let silence = AVAudioSourceNode { isSilence, _, _, buffers in
+            isSilence.pointee = true
+            for buffer in UnsafeMutableAudioBufferListPointer(buffers) {
+                if let data = buffer.mData { memset(data, 0, Int(buffer.mDataByteSize)) }
+            }
+            return noErr
+        }
+        engine.attach(silence)
+        engine.connect(silence, to: engine.mainMixerNode,
+                       format: AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1))
+    }
+
+    func start() {
+        guard interruptionObserver == nil else { return }
+        // Una chiamata o un'altra app interrompe la sessione: alla fine dell'interruzione si riparte.
+        interruptionObserver = NotificationCenter.default.addObserver(
+            forName: AVAudioSession.interruptionNotification, object: nil, queue: .main
+        ) { [weak self] note in
+            let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt)
+                .flatMap(AVAudioSession.InterruptionType.init)
+            if type == .ended { self?.activate() }
+        }
+        activate()
+    }
+
+    func stop() {
+        guard let observer = interruptionObserver else { return }
+        NotificationCenter.default.removeObserver(observer)
+        interruptionObserver = nil
+        engine.stop()
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+    }
+
+    private func activate() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, options: .mixWithOthers)
+            try session.setActive(true)
+            if !engine.isRunning { try engine.start() }
+        } catch {
+            // In primo piano il tracking funziona comunque; in background si fermerà.
+            print("Background audio error: \(error.localizedDescription)")
+        }
     }
 }
 
