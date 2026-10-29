@@ -8,6 +8,8 @@ struct TrackingView: View {
     @State private var postureTimer: CorrectPostureTimer?
     @State private var showTips = false
     @State private var showReport = false
+    /// Shown only when the first sample is late, usually because the AirPods aren't in the ears.
+    @State private var showAirPodsHint = false
 
     @Environment(SessionStore.self) private var sessionStore
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -50,7 +52,9 @@ struct TrackingView: View {
                         if isTracking {
                             Text(postureMonitor.postureMessage)
                         } else if postureMonitor.isStarting {
-                            Text("Waiting for headphone motion…")
+                            if showAirPodsHint {
+                                Text("Put on your AirPods")
+                            }
                         } else if reduceMotion {
                             // Without the motion cues, spell out what the button does.
                             Text("Tap to Track")
@@ -114,8 +118,17 @@ struct TrackingView: View {
                 isTracking && !isCorrect ? .warning : nil
             }
             // The model owns the session: the timer starts with the first sample and ends on stop or failure.
+            .task(id: postureMonitor.isStarting) {
+                showAirPodsHint = false
+                guard postureMonitor.isStarting else { return }
+                try? await Task.sleep(for: .seconds(5))
+                if !Task.isCancelled { showAirPodsHint = true }
+            }
             .onChange(of: postureMonitor.state) { oldState, newState in
-                if newState == .tracking, postureTimer == nil {
+                if newState == .starting {
+                    // The wait has no text on screen, so VoiceOver users still need to hear it.
+                    AccessibilityNotification.Announcement("Waiting for your AirPods").post()
+                } else if newState == .tracking, postureTimer == nil {
                     postureTimer = CorrectPostureTimer(start: .now, isCorrect: postureMonitor.isPostureCorrect)
                 } else if oldState == .tracking, newState != .tracking {
                     if let session = postureTimer?.session(endingAt: .now) {

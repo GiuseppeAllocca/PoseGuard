@@ -190,7 +190,7 @@ private final class SimulatorPostureMotionSource: PostureMotionSource {
 
     func startUpdates(_ handler: @escaping (PostureMotionSample?, Error?) -> Void, onDisconnect: @escaping () -> Void) {
         stopUpdates()
-        for (delay, pitch) in [(6.0, 0.0), (12.0, 20.0), (12.1, 20.0)] {
+        for (delay, pitch) in [(8.0, 0.0), (14.0, 20.0), (14.1, 20.0)] {
             let item = DispatchWorkItem {
                 handler(PostureMotionSample(pitch: pitch, roll: 0,
                                             timestamp: ProcessInfo.processInfo.systemUptime), nil)

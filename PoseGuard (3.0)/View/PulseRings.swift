@@ -11,27 +11,28 @@ struct PulseRings: View {
     let color: Color
     var count = 3
 
-    @State private var isExpanded = false
-
+    // Driven by the clock, not by a repeatForever animation: that one also captured the first
+    // layout and replayed the move from the top-left corner on every cycle.
     var body: some View {
-        ZStack {
-            ForEach(0..<count, id: \.self) { index in
-                Circle()
-                    .fill(color.opacity(0.15))
-                    .stroke(color.opacity(0.4), lineWidth: 2)
-                    .frame(width: 210, height: 210)
-                    .scaleEffect(isExpanded ? 2.2 : 1)
-                    .opacity(isExpanded ? 0 : 1)
-                    .animation(
-                        .easeOut(duration: 3)
-                            .repeatForever(autoreverses: false)
-                            .delay(Double(index)),
-                        value: isExpanded
-                    )
+        TimelineView(.animation) { context in
+            let time = context.date.timeIntervalSinceReferenceDate
+            ZStack {
+                ForEach(0..<count, id: \.self) { index in
+                    let progress = Self.easeOut((time - Double(index)).truncatingRemainder(dividingBy: 3) / 3)
+                    Circle()
+                        .fill(color.opacity(0.15))
+                        .stroke(color.opacity(0.4), lineWidth: 2)
+                        .frame(width: 210, height: 210)
+                        .scaleEffect(1 + 1.2 * progress)
+                        .opacity(1 - progress)
+                }
             }
         }
-        .onAppear { isExpanded = true }
         .allowsHitTesting(false)
         .accessibilityHidden(true)
+    }
+
+    private static func easeOut(_ progress: Double) -> Double {
+        1 - (1 - progress) * (1 - progress)
     }
 }

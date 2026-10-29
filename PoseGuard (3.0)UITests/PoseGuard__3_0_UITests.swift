@@ -23,7 +23,7 @@ final class PoseGuard__3_0_UITests: XCTestCase {
         app.completeOnboardingIfNeeded()
 
         app.buttons["Start tracking"].tap()
-        for label in ["Waiting for headphone motion…", "Correct Posture!", "Bad Posture!"] {
+        for label in ["Put on your AirPods", "Correct Posture!", "Bad Posture!"] {
             XCTAssertTrue(app.staticTexts[label].waitForExistence(timeout: 10), "Stato mancante: \(label)")
         }
         let screenshot = XCTAttachment(screenshot: app.screenshot())
@@ -88,9 +88,9 @@ final class PoseGuard__3_0_UITests: XCTestCase {
         let alert = app.alerts.matching(NSPredicate(format: "label IN %@", [
             "Headphone motion unavailable", "Motion access denied", "Motion access restricted"
         ])).firstMatch
-        let waitingStatus = app.staticTexts["Waiting for headphone motion…"]
+        let stopButton = app.buttons["Stop tracking"]
         let outcome = XCTNSPredicateExpectation(
-            predicate: NSPredicate { _, _ in alert.exists || waitingStatus.exists },
+            predicate: NSPredicate { _, _ in alert.exists || stopButton.exists },
             object: nil
         )
         XCTAssertEqual(XCTWaiter.wait(for: [outcome], timeout: 5), .completed)
@@ -103,7 +103,7 @@ final class PoseGuard__3_0_UITests: XCTestCase {
             }
             alert.buttons["OK"].tap()
         } else {
-            app.buttons["Stop tracking"].tap()
+            stopButton.tap()
         }
         let idleState = XCTNSPredicateExpectation(
             predicate: NSPredicate { _, _ in
