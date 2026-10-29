@@ -620,12 +620,12 @@
         }
       }
     },
-    "Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Continuous background monitoring is not guaranteed." : {
+    "Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Monitoring continues with the screen locked until you stop it." : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I dati di movimento sono elaborati sul dispositivo. PoseGuard salva la preferenza dell'onboarding e usa notifiche locali. Il monitoraggio continuo in background non è garantito."
+            "value" : "I dati di movimento sono elaborati sul dispositivo. PoseGuard salva la preferenza dell'onboarding e usa notifiche locali. Il monitoraggio continua a schermo bloccato finché non lo fermi."
           }
         }
       }

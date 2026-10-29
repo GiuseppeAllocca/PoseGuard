@@ -51,7 +51,7 @@ struct OnboardingView: View {
                         // Sostituito il ProfileButton con una visualizzazione non cliccabile
                         ProfileIcon()
                         
-                        Text("Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Continuous background monitoring is not guaranteed.")
+                        Text("Motion data is processed on your device. PoseGuard stores your onboarding preference and uses local notifications. Monitoring continues with the screen locked until you stop it.")
                             .font(.system(size: 12))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.gray)

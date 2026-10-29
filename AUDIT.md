@@ -17,18 +17,22 @@ Rendere PoseGuard affidabile per un aggiornamento sull'App Store, conservando as
 - **Test**: target collegati e scheme condiviso; 29 unit test (Swift Testing) e 7 UI test.
 - **Diagnostica solo Debug**: log `com.giuseppe-allocca.PoseGuardApp`, categoria `Monitoraggio` (campioni, intervalli, lifecycle, avvisi), visibile da Console.app con l'iPhone collegato.
 
-## Da verificare sull'iPhone con gli AirPods
+## Prove sull'iPhone con gli AirPods
 
-1. Avvio del tracking, schermo bloccato per alcuni minuti, postura scorretta: arriva **un** avviso? Al rientro il tracking è ancora attivo?
-2. Musica da un'altra app durante il monitoraggio: continua a suonare?
-3. Chiamata durante il monitoraggio: dopo la chiamata il tracking riparte?
+Riuscite secondo Giuseppe il 2026-10-29:
+
+1. Avvio del tracking, schermo bloccato per alcuni minuti, postura scorretta: arriva un solo avviso e al rientro il tracking è ancora attivo.
+2. Musica da un'altra app durante il monitoraggio: continua a suonare.
+3. Chiamata durante il monitoraggio: dopo la chiamata il tracking riparte.
+
+Ancora da fare:
+
 4. Rimozione e riconnessione degli AirPods, stop e riavvio.
 5. VoiceOver e Reduce Motion su Tips e tracking.
 
 ## Aperto
 
 - **Revisione App Store**: Apple accetta `audio` in background per contenuti udibili; un'app che riproduce solo silenzio rischia il rifiuto (linea guida 2.5.4). Da valutare prima della pubblicazione.
-- Testi di onboarding e README dicono ancora «background non garantito»: aggiornarli dopo la prova 1.
 - Pubblicazione: account e publisher da concordare con gli altri autori. Bundle ID e team attuali (`com.giuseppe-allocca.PoseGuardApp`) sono quelli di sviluppo.
 - Privacy policy pubblica da riscrivere (oggi dichiara raccolte di dati che l'app non fa) e da collegare nell'app.
 - Report con dati dimostrativi, non collegati a uno storico; calibrazione personale assente (soglia fissa ±15°).

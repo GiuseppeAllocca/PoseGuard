@@ -5,7 +5,7 @@ PoseGuard is an iOS application designed to help users maintain healthy posture 
 
 ## 🚀 Key Features
 - **Real-time Tracking:** Uses `CoreMotion` to read Pitch, Roll, and Yaw data from AirPods Pro/Max.
-- **Smart Alerts:** Local notifications warn when the monitor detects incorrect posture. Continuous background monitoring is not guaranteed and still requires device testing.
+- **Smart Alerts:** Local notifications warn when the monitor detects incorrect posture. Monitoring keeps running with the screen locked: a silent audio session, mixed with other apps, keeps the app active while tracking.
 - **Privacy First:** Motion data is processed locally on the device; the onboarding completion preference is stored on device. A privacy manifest declares this UserDefaults use. The public privacy policy and the in-app policy link still need to be aligned before release.
 - **Fixed Threshold:** The monitor compares AirPods pitch and roll against a fixed ±15° threshold. Personal calibration is not implemented.
 
